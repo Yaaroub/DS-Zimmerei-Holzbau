@@ -47,28 +47,16 @@ export default function Navbar() {
             >
               Warum Wir
             </Link>
-            <Link
-              href="/#projekte"
-              className="hover:text-[#17E800] transition"
-            >
-              Projekte
-            </Link>
-            <Link
-              href="/#ueber"
-              className="hover:text-[#17E800] transition"
-            >
+            <Link href="/#ueber" className="hover:text-[#17E800] transition">
               Über uns
             </Link>
-            <Link
-              href="/#kontakt"
-              className="hover:text-[#17E800] transition"
-            >
+            <Link href="/#projekte" className="hover:text-[#17E800] transition">
+              Projekte
+            </Link>
+            <Link href="/#kontakt" className="hover:text-[#17E800] transition">
               Kontakt
             </Link>
-            <Link
-              href="/impressum"
-              className="hover:text-[#17E800] transition"
-            >
+            <Link href="/impressum" className="hover:text-[#17E800] transition">
               Impressum
             </Link>
             <Link
@@ -126,19 +114,18 @@ export default function Navbar() {
           </Link>
 
           <Link
-            href="/#projekte"
-            className="text-2xl font-semibold text-white hover:text-[#17E800] transition"
-            onClick={() => setIsOpen(false)}
-          >
-            Projekte
-          </Link>
-
-          <Link
             href="/#ueber"
             className="text-2xl font-semibold text-white hover:text-[#17E800] transition"
             onClick={() => setIsOpen(false)}
           >
             Über uns
+          </Link>
+          <Link
+            href="/#projekte"
+            className="text-2xl font-semibold text-white hover:text-[#17E800] transition"
+            onClick={() => setIsOpen(false)}
+          >
+            Projekte
           </Link>
 
           <Link
