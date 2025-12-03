@@ -21,7 +21,7 @@ export default function Hero() {
       {/* Inhalt */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center">
         {/* Logo mit Float-Animation */}
-        <div className="relative mb-8 animate-logo-float">
+        <div className="relative mb-8 ">
           <Image
             src="/ds-logo.png"
             alt="DS Zimmerei & Holzbau Logo"

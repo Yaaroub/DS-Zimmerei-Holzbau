@@ -33,22 +33,26 @@ export default function WarumWirSection() {
           </h2>
 
           <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-            DS Zimmerei &amp; Holzbau steht für direkte Kommunikation,
-            durchdachte Lösungen und saubere Ausführung auf der Baustelle.
-            Statt ständig wechselnder Teams haben Sie einen festen
-            Ansprechpartner – Zimmerermeister Dennis Steckel.
+            Hinter DS Zimmerei &amp; Holzbau stehe ich,{" "}
+            <strong>Dennis Steckel</strong>, Zimmerermeister mit langjähriger
+            Erfahrung auf Baustellen in Schleswig-Holstein. Mir ist wichtig,
+            dass Sie von Anfang an wissen, wer auf Ihrem Dach und an Ihrem Haus
+            arbeitet – ohne anonyme Strukturen, sondern mit einem klar
+            erreichbaren Ansprechpartner.
           </p>
 
           <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-            Wir denken Projekte von Anfang bis Ende mit: von der Planung über
-            statische Besonderheiten bis hin zu Anschlüssen und Details, die
-            im Alltag wirklich funktionieren.
+            Gemeinsam als kleines, handwerklich geprägtes Team begleiten wir
+            Projekte von der ersten Idee über die Planung bis zur letzten
+            Schraube. Dabei denken wir Details wie Anschlüsse, Dämmung und
+            spätere Nutzung von Anfang an mit, damit das Ergebnis nicht nur
+            gut aussieht, sondern im Alltag lange und zuverlässig funktioniert.
           </p>
 
           {/* Vorteile mit Icons */}
           <div className="grid sm:grid-cols-2 gap-4 pt-2">
             <div className="flex items-start gap-3">
-              <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full ">
+              <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full">
                 <ShieldCheck className="h-4 w-4 text-[#17E800]" />
               </div>
               <div>
@@ -56,44 +60,46 @@ export default function WarumWirSection() {
                   Meisterbetrieb
                 </p>
                 <p className="text-xs md:text-sm text-gray-400">
-                  Planung und Ausführung durch Zimmerermeister mit Erfahrung
-                  auf Baustellen – nicht nur vom Schreibtisch.
+                  Planung und Ausführung durch einen Zimmerermeister, der die
+                  Praxis auf der Baustelle kennt – nicht nur die Theorie vom
+                  Schreibtisch.
                 </p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full ">
+              <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full">
                 <UserCheck className="h-4 w-4 text-[#17E800]" />
               </div>
               <div>
                 <p className="font-semibold text-sm md:text-base">
-                  Fester Ansprechpartner
+                  Persönlicher Kontakt
                 </p>
                 <p className="text-xs md:text-sm text-gray-400">
-                  Direkter Draht zum Chef – keine Hotline, keine wechselnden
-                  Kolonnen, klare Absprachen.
+                  Direkter Draht zum Meister – ohne anonyme Hotline, mit klaren
+                  Absprachen und Rückmeldungen auf Augenhöhe.
                 </p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full ">
+              <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full">
                 <Sparkles className="h-4 w-4 text-[#17E800]" />
               </div>
               <div>
                 <p className="font-semibold text-sm md:text-base">
-                  Saubere Baustellen
+                  Saubere Ausführung
                 </p>
                 <p className="text-xs md:text-sm text-gray-400">
-                  Aufgeräumte Arbeitsbereiche, saubere Schnittkanten und eine
-                  ordentliche Übergabe sind für uns selbstverständlich.
+                  Aufgeräumte Baustellen, saubere Schnittkanten und eine
+                  ordentliche Übergabe – damit Sie sich im Ergebnis sofort wohl
+                  fühlen.
                 </p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
-              <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full ">
+              <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-full">
                 <MessageCircle className="h-4 w-4 text-[#17E800]" />
               </div>
               <div>
@@ -101,8 +107,9 @@ export default function WarumWirSection() {
                   Ehrliche Beratung
                 </p>
                 <p className="text-xs md:text-sm text-gray-400">
-                  Wir sagen klar, was sinnvoll ist und was nicht – mit Blick auf
-                  Budget, Bestand und langfristige Nutzung.
+                  Klare Empfehlungen, was technisch und wirtschaftlich Sinn
+                  ergibt – mit Blick auf Bestand, Budget und langfristige
+                  Nutzung.
                 </p>
               </div>
             </div>
@@ -122,23 +129,23 @@ export default function WarumWirSection() {
               Kurz zusammengefasst
             </p>
             <p className="text-lg md:text-xl font-semibold mt-1">
-              Ein Betrieb, der mitdenkt – nicht nur ausführt.
+              Ein Meister, ein Team – klare Verantwortung.
             </p>
           </div>
 
           <ul className="space-y-2 text-sm md:text-base text-gray-200">
-            <li>• Persönliche Betreuung durch den Meister</li>
-            <li>• Überschaubares, eingespieltes Team statt anonymer Trupps</li>
-            <li>• Verlässliche Terminabsprachen und klare Kommunikation</li>
+            <li>• Direkter Ansprechpartner vom ersten Gespräch bis zur Übergabe</li>
+            <li>• Überschaubares, handwerklich geprägtes Team statt wechselnder Kolonnen</li>
+            <li>• Verlässliche Terminabsprachen und transparente Kommunikation</li>
             <li>• Durchdachte Details bei Dach, Holzbau &amp; Innenausbau</li>
-            <li>• Regionale Verankerung und kurze Wege</li>
+            <li>• Regionale Verankerung in Schleswig-Holstein und Umgebung</li>
           </ul>
 
           <div className="mt-6 pt-4 border-t border-white/10 text-sm text-gray-400">
             <p>
-              Gerne schauen wir uns Ihr Objekt vor Ort an und geben eine
-              ehrliche Einschätzung, welche Lösung technisch und wirtschaftlich
-              Sinn ergibt.
+              Wir schauen uns Ihr Objekt persönlich vor Ort an und geben eine
+              ehrliche Einschätzung, welche Lösung für Ihr Dach oder Ihren
+              Holzbau technisch und wirtschaftlich sinnvoll ist.
             </p>
           </div>
         </motion.div>
