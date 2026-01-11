@@ -1,6 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Smooth Scroll */
 html {
   scroll-behavior: smooth;
+}
+
+/* Globales Light Theme */
+body {
+  @apply bg-brand-bg text-brand-text antialiased;
 }

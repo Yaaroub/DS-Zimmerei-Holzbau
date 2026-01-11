@@ -50,7 +50,7 @@ export default function ImpressumSection() {
                 <span className="font-semibold">DS Zimmerei &amp; Holzbau</span>
                 <br />
                 Inhaber: Zimmerermeister Dennis Steckel
-              </p>
+            </p>
             </div>
 
             <div className="space-y-2">
@@ -59,9 +59,9 @@ export default function ImpressumSection() {
                 Anschrift
               </h2>
               <p className="text-xs md:text-sm text-gray-300 leading-relaxed">
-                Musterstraße 12
+                Behler Weg 11
                 <br />
-                12345 Musterstadt
+                24329 Grebin
               </p>
             </div>
 
@@ -71,9 +71,21 @@ export default function ImpressumSection() {
                 Kontakt
               </h2>
               <p className="text-xs md:text-sm text-gray-300 leading-relaxed">
-                Telefon: 01234 / 567 890
+                Telefon:&nbsp;
+                <a
+                  href="tel:+491729759134"
+                  className="hover:text-[#17E800] underline underline-offset-2"
+                >
+                  0172&nbsp;9759134
+                </a>
                 <br />
-                E-Mail: info@ds-zimmerei.de
+                E-Mail:&nbsp;
+                <a
+                  href="mailto:info@ds-zimmerei.de"
+                  className="hover:text-[#17E800] underline underline-offset-2"
+                >
+                  info@ds-zimmerei.de
+                </a>
               </p>
             </div>
 
@@ -148,8 +160,8 @@ export default function ImpressumSection() {
 
           <div className="pt-3 border-t border-white/10 text-[11px] md:text-xs text-gray-500">
             <p>
-              Hinweis: Dieses Impressum gilt für die Domain sowie eventuell
-              verbundene Social-Media-Profile von DS Zimmerei &amp; Holzbau.
+              Hinweis: Dieses Impressum gilt für die Website sowie ggf. verbundene
+              Online-Auftritte von DS Zimmerei &amp; Holzbau.
             </p>
           </div>
         </motion.div>

@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import WarumWirSection from "@/components/WarumWirSection";
 export default function HomePage() {
   return (
-    <main className="bg-black text-white min-h-screen">
+    <main className=" text-white min-h-screen">
       <Hero />
       <LeistungenSection />
       <WarumWirSection />

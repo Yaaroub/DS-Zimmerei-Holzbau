@@ -8,11 +8,22 @@ module.exports = {
       extend: {
         colors: {
           brand: {
+            // bestehend (Akzent)
             green: "#17E800",
+        
+            // neutrals / light theme
+            bg: "#F7F8FA",        // Seitenhintergrund (hell)
+            surface: "#FFFFFF",   // Karten/Boxen
+            border: "#E6E8EC",    // Linien/Border
+            text: "#0F172A",      // Haupttext (dunkel)
+            textMuted: "#475569", // sekundärer Text
+        
+            // optional: dunkle Variante für Hero/Nav
             dark: "#050505",
             muted: "#0A0A0A",
           },
         },
+        
         keyframes: {
           logoFloat: {
             "0%": { transform: "translateY(0px)" },
