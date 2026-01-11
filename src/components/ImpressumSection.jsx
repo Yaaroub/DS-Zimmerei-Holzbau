@@ -1,80 +1,98 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FileText, Phone, Mail, MapPin, Gavel } from "lucide-react";
+import { FileText, Phone, Mail, MapPin, Gavel, Info, Shield } from "lucide-react";
+
+const fade = {
+  initial: { opacity: 0, y: 16 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.25 },
+  transition: { duration: 0.5, ease: "easeOut" },
+};
+
+function Card({ icon: Icon, title, children, className = "" }) {
+  return (
+    <div
+      className={[
+        "rounded-2xl border border-black/5 bg-white p-5 md:p-6",
+        "shadow-[0_10px_30px_rgba(0,0,0,0.06)]",
+        className,
+      ].join(" ")}
+    >
+      <div className="flex items-start gap-3">
+        <div className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[#17E800]/10">
+          <Icon className="h-4 w-4 text-[#17E800]" />
+        </div>
+
+        <div className="min-w-0">
+          <h2 className="text-sm md:text-base font-semibold text-gray-900">
+            {title}
+          </h2>
+          <div className="mt-2 text-xs md:text-sm leading-relaxed text-gray-600">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function ImpressumSection() {
   return (
     <section
       id="impressum"
-      className="bg-[#050505] text-white py-20 md:py-24 px-6 border-t border-white/5"
+      className="relative bg-[#f7f8f9] py-28 md:py-28 border-t border-black/5"
     >
-      <div className="max-w-7xl mx-auto grid gap-10 md:grid-cols-[1.4fr,1fr] items-start">
-        {/* Linke Seite – Textbereich */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6 }}
-          className="space-y-6"
-        >
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#17E800]/50 bg-[#0A0A0A] px-3 py-1 text-[11px] font-medium text-[#8BFF7A] uppercase tracking-[0.22em]">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#17E800]" />
-            Rechtliche Angaben · Impressum
-          </div>
-
-          <p className="text-[#17E800] uppercase tracking-[0.25em] text-sm font-semibold">
-            Impressum
-          </p>
-
-          <h1 className="text-3xl md:text-4xl font-bold">
-            DS Zimmerei &amp; Holzbau – Angaben gemäß § 5 TMG.
-          </h1>
-
-          <p className="text-gray-300 text-sm md:text-base leading-relaxed">
-            Nachfolgend finden Sie alle gesetzlich vorgeschriebenen
-            Informationen zu unserem Betrieb, der verantwortlichen Person sowie
-            Kontaktmöglichkeiten. Bei Fragen sprechen Sie uns jederzeit direkt
-            an – wir legen Wert auf transparente und faire Kommunikation.
-          </p>
-
-          {/* Blöcke – Firma, Inhaber, Adresse */}
-          <div className="grid sm:grid-cols-2 gap-6 pt-2">
-            <div className="space-y-2">
-              <h2 className="text-sm md:text-base font-semibold flex items-center gap-2">
-                <FileText className="h-4 w-4 text-[#17E800]" />
-                Firmenangaben
-              </h2>
-              <p className="text-xs md:text-sm text-gray-300 leading-relaxed">
-                <span className="font-semibold">DS Zimmerei &amp; Holzbau</span>
-                <br />
-                Inhaber: Zimmerermeister Dennis Steckel
-            </p>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-10 md:grid-cols-[1.45fr,1fr] items-start">
+          {/* LEFT */}
+          <motion.div {...fade} className="space-y-6">
+            {/* badge */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#17E800]" />
+              <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-gray-600">
+                Rechtliche Angaben · Impressum
+              </span>
             </div>
 
-            <div className="space-y-2">
-              <h2 className="text-sm md:text-base font-semibold flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-[#17E800]" />
-                Anschrift
-              </h2>
-              <p className="text-xs md:text-sm text-gray-300 leading-relaxed">
+            <p className="text-[#17E800] uppercase tracking-[0.25em] text-xs sm:text-sm font-semibold">
+              Impressum
+            </p>
+
+            <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900">
+              Angaben gemäß § 5 TMG
+              <span className="text-gray-500"> – DS Zimmerei &amp; Holzbau</span>
+            </h1>
+
+            <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-2xl">
+              Nachfolgend finden Sie die gesetzlich vorgeschriebenen Informationen zu
+              unserem Betrieb, der verantwortlichen Person sowie Kontaktmöglichkeiten.
+              Bei Fragen sprechen Sie uns jederzeit direkt an.
+            </p>
+
+            {/* cards grid */}
+            <div className="grid gap-4 sm:grid-cols-2 pt-2">
+              <Card icon={FileText} title="Firmenangaben">
+                <span className="font-semibold text-gray-900">
+                  DS Zimmerei &amp; Holzbau
+                </span>
+                <br />
+                Inhaber: Zimmerermeister Dennis Steckel
+              </Card>
+
+              <Card icon={MapPin} title="Anschrift">
                 Behler Weg 11
                 <br />
                 24329 Grebin
-              </p>
-            </div>
+                <br />
+                Deutschland
+              </Card>
 
-            <div className="space-y-2">
-              <h2 className="text-sm md:text-base font-semibold flex items-center gap-2">
-                <Phone className="h-4 w-4 text-[#17E800]" />
-                Kontakt
-              </h2>
-              <p className="text-xs md:text-sm text-gray-300 leading-relaxed">
+              <Card icon={Phone} title="Kontakt">
                 Telefon:&nbsp;
                 <a
                   href="tel:+491729759134"
-                  className="hover:text-[#17E800] underline underline-offset-2"
+                  className="underline underline-offset-4 hover:text-black"
                 >
                   0172&nbsp;9759134
                 </a>
@@ -82,89 +100,98 @@ export default function ImpressumSection() {
                 E-Mail:&nbsp;
                 <a
                   href="mailto:info@ds-zimmerei.de"
-                  className="hover:text-[#17E800] underline underline-offset-2"
+                  className="underline underline-offset-4 hover:text-black"
                 >
                   info@ds-zimmerei.de
                 </a>
-              </p>
-            </div>
+              </Card>
 
-            <div className="space-y-2">
-              <h2 className="text-sm md:text-base font-semibold flex items-center gap-2">
-                <Gavel className="h-4 w-4 text-[#17E800]" />
-                Handwerksbetrieb
-              </h2>
-              <p className="text-xs md:text-sm text-gray-300 leading-relaxed">
-                Eingetragen in die Handwerksrolle der zuständigen
-                Handwerkskammer.
+              <Card icon={Gavel} title="Handwerksbetrieb">
+                Eingetragen in die Handwerksrolle der zuständigen Handwerkskammer.
                 <br />
                 Berufsbezeichnung: Zimmerermeister (verliehen in Deutschland)
-              </p>
+              </Card>
+
+              <Card icon={Info} title="Pflichtangaben prüfen" className="sm:col-span-2">
+                Falls Ihr Betrieb eine Umsatzsteuer-Identifikationsnummer, einen
+                Handelsregistereintrag oder weitere Pflichtangaben benötigt,
+                ergänzen Sie diese hier entsprechend (z. B. USt-IdNr., Registergericht,
+                Registernummer).
+              </Card>
             </div>
-          </div>
-        </motion.div>
 
-        {/* Rechte Box – rechtliche Hinweise */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="bg-[#0A0A0A] border border-white/10 rounded-2xl p-6 md:p-7 shadow-[0_0_24px_rgba(0,0,0,0.6)] space-y-5"
-        >
-          <div className="border-l-4 border-[#17E800] pl-4">
-            <p className="text-xs uppercase tracking-[0.22em] text-gray-400">
-              Verantwortlich nach § 55 Abs. 2 RStV
-            </p>
-            <p className="text-lg md:text-xl font-semibold mt-1">
-              Zimmerermeister Dennis Steckel
-            </p>
-            <p className="text-xs md:text-sm text-gray-400 mt-1">
-              Anschrift wie oben.
-            </p>
-          </div>
-
-          <div className="space-y-2 text-xs md:text-sm text-gray-300">
-            <h3 className="font-semibold">Haftung für Inhalte</h3>
-            <p className="leading-relaxed">
-              Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene
-              Inhalte auf diesen Seiten nach den allgemeinen Gesetzen
-              verantwortlich. Nach §§ 8 bis 10 TMG sind wir jedoch nicht
-              verpflichtet, übermittelte oder gespeicherte fremde Informationen
-              zu überwachen oder nach Umständen zu forschen, die auf eine
-              rechtswidrige Tätigkeit hinweisen.
-            </p>
-          </div>
-
-          <div className="space-y-2 text-xs md:text-sm text-gray-300">
-            <h3 className="font-semibold">Haftung für Links</h3>
-            <p className="leading-relaxed">
-              Unser Angebot enthält ggf. Links zu externen Websites Dritter, auf
-              deren Inhalte wir keinen Einfluss haben. Deshalb können wir für
-              diese fremden Inhalte auch keine Gewähr übernehmen. Für die
-              Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter
-              oder Betreiber der Seiten verantwortlich.
-            </p>
-          </div>
-
-          <div className="space-y-2 text-xs md:text-sm text-gray-300">
-            <h3 className="font-semibold">Urheberrecht</h3>
-            <p className="leading-relaxed">
-              Die durch den Seitenbetreiber erstellten Inhalte und Werke auf
-              diesen Seiten unterliegen dem deutschen Urheberrecht.
-              Vervielfältigung, Bearbeitung, Verbreitung und jede Art der
-              Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der
-              schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
-            </p>
-          </div>
-
-          <div className="pt-3 border-t border-white/10 text-[11px] md:text-xs text-gray-500">
-            <p>
-              Hinweis: Dieses Impressum gilt für die Website sowie ggf. verbundene
+            <p className="pt-2 text-[11px] text-gray-500 leading-relaxed max-w-2xl">
+              Hinweis: Dieses Impressum gilt für diese Website sowie ggf. verbundene
               Online-Auftritte von DS Zimmerei &amp; Holzbau.
             </p>
-          </div>
-        </motion.div>
+          </motion.div>
+
+          {/* RIGHT / sticky legal box */}
+          <motion.div
+            {...fade}
+            transition={{ ...fade.transition, delay: 0.08 }}
+            className="md:sticky md:top-28"
+          >
+            <div className="rounded-2xl border border-black/5 bg-white p-6 md:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
+              <div className="flex items-start gap-3">
+                <div className="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[#17E800]/10">
+                  <Shield className="h-5 w-5 text-[#17E800]" />
+                </div>
+                <div>
+                  <p className="text-[11px] uppercase tracking-[0.22em] text-gray-500">
+                    Verantwortlich i. S. d. § 55 Abs. 2 RStV / MStV
+                  </p>
+                  <p className="mt-1 text-lg md:text-xl font-semibold text-gray-900">
+                    Zimmerermeister Dennis Steckel
+                  </p>
+                  <p className="mt-1 text-xs text-gray-500">Anschrift wie oben.</p>
+                </div>
+              </div>
+
+              <div className="mt-6 space-y-5 text-sm text-gray-600">
+                <div>
+                  <h3 className="font-semibold text-gray-900">Haftung für Inhalte</h3>
+                  <p className="mt-2 leading-relaxed">
+                    Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte
+                    nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind
+                    wir jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde
+                    Informationen zu überwachen oder nach Umständen zu forschen, die auf
+                    eine rechtswidrige Tätigkeit hinweisen.
+                  </p>
+                </div>
+
+                <div className="h-px bg-black/10" />
+
+                <div>
+                  <h3 className="font-semibold text-gray-900">Haftung für Links</h3>
+                  <p className="mt-2 leading-relaxed">
+                    Unser Angebot enthält ggf. Links zu externen Websites Dritter, auf deren
+                    Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden
+                    Inhalte keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist
+                    stets der jeweilige Anbieter oder Betreiber verantwortlich.
+                  </p>
+                </div>
+
+                <div className="h-px bg-black/10" />
+
+                <div>
+                  <h3 className="font-semibold text-gray-900">Urheberrecht</h3>
+                  <p className="mt-2 leading-relaxed">
+                    Die durch den Seitenbetreiber erstellten Inhalte und Werke unterliegen dem
+                    deutschen Urheberrecht. Vervielfältigung, Bearbeitung, Verbreitung und jede
+                    Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der
+                    schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+                  </p>
+                </div>
+
+                <div className="mt-6 rounded-xl border border-black/10 bg-[#f2f4f6] p-4 text-[11px] text-gray-500 leading-relaxed">
+                  Tipp: Wenn du Medien/Logos/Fotos von Dritten nutzt, nenne ggf. die Quellen/
+                  Rechteinhaber hier oder auf einer separaten Seite.
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
