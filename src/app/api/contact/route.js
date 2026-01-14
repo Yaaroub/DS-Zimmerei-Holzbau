@@ -356,13 +356,31 @@ Web: https://ds-zimmerei-holzbau.de
 <div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#0f172a;">
   <div style="height:4px;width:100%;background:#17E800;margin-bottom:18px;"></div>
 
+<div style="margin-top:24px;">
+  <p style="margin:0;">
+    Mit freundlichen Grüßen<br>
+    <strong>DS Zimmerei &amp; Holzbau</strong><br>
+    <span style="color:#475569;">Zimmerermeister Dennis Steckel</span>
+  </p>
+
+  <p style="margin:12px 0 0;font-size:13px;color:#475569;">
+    Telefon: <a href="tel:+491729759134" style="color:#0f172a;text-decoration:none;">0172&nbsp;9759134</a><br>
+    E-Mail: <a href="mailto:kontakt@ds-zimmerei-holzbau.de" style="color:#0f172a;text-decoration:none;">kontakt@ds-zimmerei-holzbau.de</a><br>
+    Web: <a href="https://ds-zimmerei-holzbau.de" style="color:#0f172a;text-decoration:none;">ds-zimmerei-holzbau.de</a>
+  </p>
+
   ${
     logoAttachment
-      ? `<div style="margin:0 0 14px;">
-           <img src="cid:dslogo" alt="DS Zimmerei & Holzbau" width="220" style="display:block;border:0;outline:none;text-decoration:none;">
+      ? `<div style="margin-top:16px;">
+           <img src="cid:dslogo"
+                alt="DS Zimmerei & Holzbau"
+                width="200"
+                style="display:block;border:0;outline:none;text-decoration:none;">
          </div>`
       : ""
   }
+</div>
+
 
   <p style="margin:0 0 12px;"><strong>Hallo ${escapeHtml(customerName)},</strong></p>
 
