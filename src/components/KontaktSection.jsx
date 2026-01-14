@@ -49,11 +49,13 @@ export default function KontaktSection() {
     setSent(false);
     setErrorMsg("");
     setLoading(true);
-
+  
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 20_000); // 20s
+  
     try {
       const formData = new FormData(e.target);
-
-      // payload for validation (read-only)
+  
       const payload = {
         name: (formData.get("name") || "").toString(),
         telefon: (formData.get("telefon") || "").toString(),
@@ -67,36 +69,56 @@ export default function KontaktSection() {
         rueckruf: formData.get("rueckruf") === "ja",
         rueckrufZeit: (formData.get("rueckrufZeit") || "").toString(),
         dsgvo: formData.get("dsgvo") === "ja",
-        website: (formData.get("website") || "").toString(), // honeypot
+        website: (formData.get("website") || "").toString(),
       };
-
+  
       const err = validate(payload);
       if (err) throw new Error(err);
-
-      // send multipart (supports file upload)
+  
       const res = await fetch("/api/contact", {
         method: "POST",
         body: formData,
+        signal: controller.signal,
       });
-
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok || data?.ok === false) {
-        throw new Error(data?.error || "Fehler beim Senden. Bitte später erneut versuchen.");
+  
+      // robust: JSON if possible, otherwise text
+      const ct = res.headers.get("content-type") || "";
+      let data = {};
+      if (ct.includes("application/json")) {
+        data = await res.json().catch(() => ({}));
+      } else {
+        const txt = await res.text().catch(() => "");
+        data = { error: txt?.slice(0, 300) || "" };
       }
-      
+  
+      if (!res.ok || data?.ok === false) {
+        const detail = data?.error ? ` (${data.error})` : "";
+        throw new Error(
+          `Senden fehlgeschlagen (HTTP ${res.status})${detail}` ||
+            "Fehler beim Senden. Bitte später erneut versuchen."
+        );
+      }
+  
       setSent(true);
       e.target.reset();
       setWantCallback(false);
     } catch (err) {
       console.error(err);
-      setErrorMsg(
-        err?.message ||
-          "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut oder rufen Sie uns direkt an."
-      );
+  
+      if (err?.name === "AbortError") {
+        setErrorMsg("Zeitüberschreitung. Bitte erneut versuchen oder uns direkt anrufen.");
+      } else {
+        setErrorMsg(
+          err?.message ||
+            "Es ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut oder rufen Sie uns direkt an."
+        );
+      }
     } finally {
+      clearTimeout(timeout);
       setLoading(false);
     }
   };
+  
 
   return (
     <section
