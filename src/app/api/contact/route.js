@@ -1,7 +1,9 @@
 // src/app/api/contact/route.js
 import nodemailer from "nodemailer";
+import fs from "node:fs/promises";
+import path from "node:path";
 
-export const runtime = "nodejs"; // IMPORTANT: nodemailer needs node runtime
+export const runtime = "nodejs"; // nodemailer needs Node runtime
 export const dynamic = "force-dynamic";
 
 /**
@@ -14,7 +16,6 @@ const rateStore = globalThis.__contactRateStore || new Map();
 globalThis.__contactRateStore = rateStore;
 
 function getClientIp(req) {
-  // Vercel/Proxy typical headers
   const xff = req.headers.get("x-forwarded-for");
   if (xff) return xff.split(",")[0].trim();
   const xrip = req.headers.get("x-real-ip");
@@ -43,7 +44,6 @@ function rateLimitOrThrow(ip) {
 
 function cleanText(v, max = 4000) {
   const s = (v ?? "").toString().trim();
-  // remove control chars
   const safe = s.replace(/[\u0000-\u001F\u007F]/g, " ");
   return safe.length > max ? safe.slice(0, max) + "…" : safe;
 }
@@ -52,15 +52,16 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+// Robust file type check (MIME + extension fallback)
 function isAllowedFileType(file) {
-  // file.type comes from browser (best-effort), still useful.
   const t = (file?.type || "").toLowerCase();
-  return (
-    t.startsWith("image/") ||
-    t === "application/pdf" ||
-    t === "image/heic" ||
-    t === "image/heif"
-  );
+  const name = (file?.name || "").toLowerCase();
+
+  if (t.startsWith("image/")) return true;
+  if (t === "application/pdf") return true;
+
+  const allowedExt = [".jpg", ".jpeg", ".png", ".webp", ".gif", ".heic", ".heif", ".pdf"];
+  return allowedExt.some((ext) => name.endsWith(ext));
 }
 
 function toBase64(buffer) {
@@ -68,14 +69,7 @@ function toBase64(buffer) {
 }
 
 function assertEnv() {
-  const required = [
-    "SMTP_HOST",
-    "SMTP_PORT",
-    "SMTP_USER",
-    "SMTP_PASS",
-    "MAIL_FROM",
-    "MAIL_TO",
-  ];
+  const required = ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "MAIL_FROM", "MAIL_TO"];
   const missing = required.filter((k) => !process.env[k]);
   if (missing.length) {
     const err = new Error(`Server-Konfiguration fehlt: ${missing.join(", ")}`);
@@ -99,6 +93,23 @@ function createTransporter() {
   });
 }
 
+async function loadLogoPngBase64() {
+  // put logo here: /public/ds-logo.png
+  const p = path.join(process.cwd(), "public", "ds-logo.png");
+  const buf = await fs.readFile(p);
+  return buf.toString("base64");
+}
+
+function escapeHtml(str) {
+  return (str ?? "")
+    .toString()
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 export async function POST(req) {
   try {
     assertEnv();
@@ -118,9 +129,7 @@ export async function POST(req) {
 
     // Honeypot
     const website = cleanText(fd.get("website"), 200);
-    if (website) {
-      return Response.json({ ok: true }, { status: 200 }); // quietly ignore bots
-    }
+    if (website) return Response.json({ ok: true }, { status: 200 });
 
     // Read fields
     const name = cleanText(fd.get("name"), 120);
@@ -159,26 +168,19 @@ export async function POST(req) {
       );
     }
 
-    // Files
+    // Files (ignore empty pseudo-files)
     const filesRaw = fd.getAll("files");
-
-    // IMPORTANT: ignore empty pseudo-files (no selection)
     const files = filesRaw.filter((f) => {
-      // In Next/Node runtime, formData files are File objects
       const isFile = typeof f === "object" && f && "arrayBuffer" in f;
       if (!isFile) return false;
-    
-      // Some browsers send an empty file even when nothing selected
-      const name = (f.name || "").trim();
-      const size = Number(f.size || 0);
-    
-      return name.length > 0 && size > 0;
+      const fn = (f.name || "").trim();
+      const sz = Number(f.size || 0);
+      return fn.length > 0 && sz > 0;
     });
-    
 
     const MAX_FILES = Number(process.env.CONTACT_MAX_FILES || 5);
-    const MAX_FILE_BYTES = Number(process.env.CONTACT_MAX_FILE_BYTES || 7_000_000); // 7MB each
-    const MAX_TOTAL_BYTES = Number(process.env.CONTACT_MAX_TOTAL_BYTES || 15_000_000); // 15MB total
+    const MAX_FILE_BYTES = Number(process.env.CONTACT_MAX_FILE_BYTES || 7_000_000);
+    const MAX_TOTAL_BYTES = Number(process.env.CONTACT_MAX_TOTAL_BYTES || 15_000_000);
 
     if (files.length > MAX_FILES) {
       return Response.json(
@@ -201,7 +203,10 @@ export async function POST(req) {
       const size = Number(file.size || 0);
       if (size > MAX_FILE_BYTES) {
         return Response.json(
-          { ok: false, error: `Eine Datei ist zu groß (max. ${Math.round(MAX_FILE_BYTES / 1e6)} MB).` },
+          {
+            ok: false,
+            error: `Eine Datei ist zu groß (max. ${Math.round(MAX_FILE_BYTES / 1e6)} MB).`,
+          },
           { status: 400 }
         );
       }
@@ -209,7 +214,10 @@ export async function POST(req) {
       totalBytes += size;
       if (totalBytes > MAX_TOTAL_BYTES) {
         return Response.json(
-          { ok: false, error: `Anhänge insgesamt zu groß (max. ${Math.round(MAX_TOTAL_BYTES / 1e6)} MB).` },
+          {
+            ok: false,
+            error: `Anhänge insgesamt zu groß (max. ${Math.round(MAX_TOTAL_BYTES / 1e6)} MB).`,
+          },
           { status: 400 }
         );
       }
@@ -224,11 +232,11 @@ export async function POST(req) {
       });
     }
 
-    // Prepare email content
+    // Prepare main email
     const subjectLine = `[DS Zimmerei] ${betreff || "Kontaktanfrage"} — ${name}`;
 
     const text = [
-      `Neue Kontaktanfrage über ds-zimmerei.de`,
+      `Neue Kontaktanfrage über ds-zimmerei-holzbau.de`,
       ``,
       `Name: ${name}`,
       `E-Mail: ${email}`,
@@ -253,59 +261,167 @@ export async function POST(req) {
     ].join("\n");
 
     const html = `
-      <div style="font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial; line-height:1.5;">
-        <h2 style="margin:0 0 12px;">Neue Kontaktanfrage</h2>
-        <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
-          <tr><td style="padding:6px 12px 6px 0;"><b>Name</b></td><td style="padding:6px 0;">${escapeHtml(name)}</td></tr>
-          <tr><td style="padding:6px 12px 6px 0;"><b>E-Mail</b></td><td style="padding:6px 0;">${escapeHtml(email)}</td></tr>
-          <tr><td style="padding:6px 12px 6px 0;"><b>Telefon</b></td><td style="padding:6px 0;">${escapeHtml(telefon || "-")}</td></tr>
-          <tr><td style="padding:6px 12px 6px 0;"><b>Rückruf</b></td><td style="padding:6px 0;">${rueckruf ? "Ja" : "Nein"}</td></tr>
-          <tr><td style="padding:6px 12px 6px 0;"><b>Wunschzeit</b></td><td style="padding:6px 0;">${escapeHtml(rueckrufZeit || "-")}</td></tr>
-          <tr><td style="padding:6px 12px 6px 0;"><b>Betreff</b></td><td style="padding:6px 0;">${escapeHtml(betreff || "-")}</td></tr>
-          <tr><td style="padding:6px 12px 6px 0;"><b>Leistung</b></td><td style="padding:6px 0;">${escapeHtml(leistung || "-")}</td></tr>
-          <tr><td style="padding:6px 12px 6px 0;"><b>Adresse</b></td><td style="padding:6px 0;">
-            ${escapeHtml(strasse || "-")}<br/>
-            ${escapeHtml(plz || "-")} ${escapeHtml(ort || "")}
-          </td></tr>
-        </table>
-        <hr style="margin:16px 0; border:none; border-top:1px solid #e5e7eb;" />
-        <h3 style="margin:0 0 8px;">Nachricht</h3>
-        <pre style="white-space:pre-wrap; margin:0; background:#f9fafb; padding:12px; border-radius:10px; border:1px solid #e5e7eb;">${escapeHtml(
-          nachricht || "-"
-        )}</pre>
-        <p style="margin:14px 0 0; color:#6b7280; font-size:12px;">
-          IP: ${escapeHtml(ip)} · UA: ${escapeHtml(cleanText(req.headers.get("user-agent"), 300) || "-")}
-        </p>
-      </div>
-    `;
+<div style="font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial; line-height:1.5;">
+  <h2 style="margin:0 0 12px;">Neue Kontaktanfrage</h2>
+  <table cellspacing="0" cellpadding="0" style="border-collapse:collapse;">
+    <tr><td style="padding:6px 12px 6px 0;"><b>Name</b></td><td style="padding:6px 0;">${escapeHtml(
+      name
+    )}</td></tr>
+    <tr><td style="padding:6px 12px 6px 0;"><b>E-Mail</b></td><td style="padding:6px 0;">${escapeHtml(
+      email
+    )}</td></tr>
+    <tr><td style="padding:6px 12px 6px 0;"><b>Telefon</b></td><td style="padding:6px 0;">${escapeHtml(
+      telefon || "-"
+    )}</td></tr>
+    <tr><td style="padding:6px 12px 6px 0;"><b>Rückruf</b></td><td style="padding:6px 0;">${
+      rueckruf ? "Ja" : "Nein"
+    }</td></tr>
+    <tr><td style="padding:6px 12px 6px 0;"><b>Wunschzeit</b></td><td style="padding:6px 0;">${escapeHtml(
+      rueckrufZeit || "-"
+    )}</td></tr>
+    <tr><td style="padding:6px 12px 6px 0;"><b>Betreff</b></td><td style="padding:6px 0;">${escapeHtml(
+      betreff || "-"
+    )}</td></tr>
+    <tr><td style="padding:6px 12px 6px 0;"><b>Leistung</b></td><td style="padding:6px 0;">${escapeHtml(
+      leistung || "-"
+    )}</td></tr>
+    <tr><td style="padding:6px 12px 6px 0;"><b>Adresse</b></td><td style="padding:6px 0;">
+      ${escapeHtml(strasse || "-")}<br/>
+      ${escapeHtml(plz || "-")} ${escapeHtml(ort || "")}
+    </td></tr>
+  </table>
+  <hr style="margin:16px 0; border:none; border-top:1px solid #e5e7eb;" />
+  <h3 style="margin:0 0 8px;">Nachricht</h3>
+  <pre style="white-space:pre-wrap; margin:0; background:#f9fafb; padding:12px; border-radius:10px; border:1px solid #e5e7eb;">${escapeHtml(
+    nachricht || "-"
+  )}</pre>
+  <p style="margin:14px 0 0; color:#6b7280; font-size:12px;">
+    IP: ${escapeHtml(ip)} · UA: ${escapeHtml(cleanText(req.headers.get("user-agent"), 300) || "-")}
+  </p>
+</div>
+`;
 
-    // Send mail
     const transporter = createTransporter();
 
+    // 1) send to business inbox
     await transporter.sendMail({
       from: process.env.MAIL_FROM,
       to: process.env.MAIL_TO,
-      replyTo: email, // so you can reply directly to the customer
+      replyTo: email,
       subject: subjectLine,
       text,
       html,
       attachments,
     });
 
-    // Optional: send confirmation to customer (set env to enable)
-    if ((process.env.CONTACT_SEND_AUTOREPLY || "").toLowerCase() === "true") {
-      await transporter.sendMail({
-        from: process.env.MAIL_FROM,
-        to: email,
-        subject: "Wir haben Ihre Anfrage erhalten",
-        text:
-          "Vielen Dank für Ihre Nachricht. Wir melden uns zeitnah bei Ihnen.\n\n— DS Zimmerei & Holzbau",
-      });
+    // 2) optional auto reply (PNG logo via CID)
+    const AUTO = (process.env.CONTACT_SEND_AUTOREPLY || "").trim().toLowerCase();
+    const sendAutoReply = ["true", "1", "yes", "y", "on"].includes(AUTO);
+
+    if (sendAutoReply) {
+      const customerName = cleanText(name, 80) || "Guten Tag";
+
+      // logo is optional – do not fail the request if logo file is missing
+      let logoAttachment = null;
+      try {
+        const logoBase64 = await loadLogoPngBase64();
+        logoAttachment = {
+          filename: "ds-logo.png",
+          content: logoBase64,
+          encoding: "base64",
+          cid: "dslogo",
+          contentType: "image/png",
+        };
+      } catch (e) {
+        console.warn("AUTOREPLY_LOGO_MISSING", e?.message || e);
+      }
+
+      const autoText = `
+Hallo ${customerName},
+
+vielen Dank für Ihre Anfrage.
+
+Wir haben Ihre Nachricht erhalten und melden uns zeitnah persönlich bei Ihnen.
+
+Mit freundlichen Grüßen
+DS Zimmerei & Holzbau
+Zimmerermeister Dennis Steckel
+
+Telefon: 0172 9759134
+E-Mail: kontakt@ds-zimmerei-holzbau.de
+Web: https://ds-zimmerei-holzbau.de
+`.trim();
+
+      const autoHtml = `
+<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#0f172a;">
+  <div style="height:4px;width:100%;background:#17E800;margin-bottom:18px;"></div>
+
+  ${
+    logoAttachment
+      ? `<div style="margin:0 0 14px;">
+           <img src="cid:dslogo" alt="DS Zimmerei & Holzbau" width="220" style="display:block;border:0;outline:none;text-decoration:none;">
+         </div>`
+      : ""
+  }
+
+  <p style="margin:0 0 12px;"><strong>Hallo ${escapeHtml(customerName)},</strong></p>
+
+  <p style="margin:0 0 10px;">vielen Dank für Ihre Anfrage.</p>
+  <p style="margin:0 0 10px;">Wir haben Ihre Nachricht erhalten und melden uns zeitnah persönlich bei Ihnen.</p>
+
+  <div style="margin-top:24px;">
+    <p style="margin:0;">
+      Mit freundlichen Grüßen<br>
+      <strong>DS Zimmerei &amp; Holzbau</strong><br>
+      <span style="color:#475569;">Zimmerermeister Dennis Steckel</span>
+    </p>
+
+    <p style="margin:12px 0 0;font-size:13px;color:#475569;">
+      Telefon: <a href="tel:+491729759134" style="color:#0f172a;text-decoration:none;">0172&nbsp;9759134</a><br>
+      E-Mail: <a href="mailto:kontakt@ds-zimmerei-holzbau.de" style="color:#0f172a;text-decoration:none;">kontakt@ds-zimmerei-holzbau.de</a><br>
+      Web: <a href="https://ds-zimmerei-holzbau.de" style="color:#0f172a;text-decoration:none;">ds-zimmerei-holzbau.de</a>
+    </p>
+  </div>
+
+  <hr style="margin:22px 0;border:none;border-top:1px solid #e5e7eb;">
+
+  <p style="font-size:11px;color:#6b7280;margin:0;">
+    Diese E-Mail wurde automatisch generiert. Bitte antworten Sie nicht direkt auf diese Nachricht.
+  </p>
+</div>
+`;
+
+      try {
+        await transporter.sendMail({
+          from: process.env.MAIL_FROM,
+          to: email,
+          replyTo: process.env.MAIL_TO,
+          subject: "Vielen Dank für Ihre Anfrage – DS Zimmerei & Holzbau",
+          text: autoText,
+          html: autoHtml,
+          headers: {
+            "Auto-Submitted": "auto-replied",
+            "X-Auto-Response-Suppress": "All",
+          },
+          attachments: logoAttachment ? [logoAttachment] : [],
+        });
+      } catch (e) {
+        // do not fail whole request if autoreply fails
+        console.error("AUTOREPLY_ERROR", e);
+      }
     }
 
     return Response.json({ ok: true }, { status: 200 });
   } catch (err) {
     const status = err?.status || 500;
+
+    console.error("CONTACT_API_ERROR", {
+      code: err?.code,
+      responseCode: err?.responseCode,
+      command: err?.command,
+      message: err?.message,
+    });
+
     const msg =
       status === 429
         ? err.message
@@ -313,17 +429,6 @@ export async function POST(req) {
         ? "Serverfehler. Bitte später erneut versuchen."
         : err?.message || "Fehler beim Senden.";
 
-    console.error("CONTACT_API_ERROR", err);
     return Response.json({ ok: false, error: msg }, { status });
   }
-}
-
-function escapeHtml(str) {
-  return (str ?? "")
-    .toString()
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
 }
