@@ -65,10 +65,10 @@ export default function Footer() {
               <p>
                 E-Mail:{" "}
                 <a
-                  href="mailto:info@ds-zimmerei.de"
+                  href="mailto:kontakt@ds-zimmerei-holzbau.de"
                   className="hover:text-brand-green transition"
                 >
-                  info@ds-zimmerei.de
+                  kontakt@ds-zimmerei-holzbau.de
                 </a>
               </p>
             </div>
