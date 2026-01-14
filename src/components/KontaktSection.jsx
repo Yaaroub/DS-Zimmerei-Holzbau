@@ -79,8 +79,11 @@ export default function KontaktSection() {
         body: formData,
       });
 
-      if (!res.ok) throw new Error("Fehler beim Senden. Bitte später erneut versuchen.");
-
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data?.ok === false) {
+        throw new Error(data?.error || "Fehler beim Senden. Bitte später erneut versuchen.");
+      }
+      
       setSent(true);
       e.target.reset();
       setWantCallback(false);
@@ -159,8 +162,8 @@ export default function KontaktSection() {
               <a className="underline underline-offset-4 hover:text-brand-text" href="tel:+491729759134">
                 Telefon: 0172 9759134
               </a>
-              <a className="underline underline-offset-4 hover:text-brand-text" href="mailto:info@ds-zimmerei.de">
-                E-Mail: info@ds-zimmerei.de
+              <a className="underline underline-offset-4 hover:text-brand-text" href="mailto:kontakt@ds-zimmerei-holzbau.de">
+                E-Mail: kontakt@ds-zimmerei-holzbau.de
               </a>
             </div>
           </div>

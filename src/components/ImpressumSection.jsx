@@ -1,7 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FileText, Phone, Mail, MapPin, Gavel, Info, Shield } from "lucide-react";
+import {
+  FileText,
+  Phone,
+  Mail,
+  MapPin,
+  Gavel,
+  Info,
+  Shield,
+} from "lucide-react";
 
 const fade = {
   initial: { opacity: 0, y: 16 },
@@ -61,13 +69,17 @@ export default function ImpressumSection() {
 
             <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900">
               Angaben gemäß § 5 TMG
-              <span className="text-gray-500"> – DS Zimmerei &amp; Holzbau</span>
+              <span className="text-gray-500">
+                {" "}
+                – DS Zimmerei &amp; Holzbau
+              </span>
             </h1>
 
             <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-2xl">
-              Nachfolgend finden Sie die gesetzlich vorgeschriebenen Informationen zu
-              unserem Betrieb, der verantwortlichen Person sowie Kontaktmöglichkeiten.
-              Bei Fragen sprechen Sie uns jederzeit direkt an.
+              Nachfolgend finden Sie die gesetzlich vorgeschriebenen
+              Informationen zu unserem Betrieb, der verantwortlichen Person
+              sowie Kontaktmöglichkeiten. Bei Fragen sprechen Sie uns jederzeit
+              direkt an.
             </p>
 
             {/* cards grid */}
@@ -99,30 +111,31 @@ export default function ImpressumSection() {
                 <br />
                 E-Mail:&nbsp;
                 <a
-                  href="mailto:info@ds-zimmerei.de"
+                  href="mailto:kontakt@ds-zimmerei-holzbau.de"
                   className="underline underline-offset-4 hover:text-black"
                 >
-                  info@ds-zimmerei.de
+                  kontakt@ds-zimmerei-holzbau.de
                 </a>
               </Card>
 
               <Card icon={Gavel} title="Handwerksbetrieb">
-                Eingetragen in die Handwerksrolle der zuständigen Handwerkskammer.
+                Eingetragen in die Handwerksrolle der zuständigen
+                Handwerkskammer.
                 <br />
                 Berufsbezeichnung: Zimmerermeister (verliehen in Deutschland)
               </Card>
 
-              <Card icon={Info} title="Pflichtangaben prüfen" className="sm:col-span-2">
-                Falls Ihr Betrieb eine Umsatzsteuer-Identifikationsnummer, einen
-                Handelsregistereintrag oder weitere Pflichtangaben benötigt,
-                ergänzen Sie diese hier entsprechend (z. B. USt-IdNr., Registergericht,
-                Registernummer).
+              <Card icon={Info} title="Umsatzsteuer">
+                Umsatzsteuer-Identifikationsnummer gemäß § 27 a
+                Umsatzsteuergesetz:
+                <br />
+                <span className="font-semibold text-gray-900">DE366221415</span>
               </Card>
             </div>
 
             <p className="pt-2 text-[11px] text-gray-500 leading-relaxed max-w-2xl">
-              Hinweis: Dieses Impressum gilt für diese Website sowie ggf. verbundene
-              Online-Auftritte von DS Zimmerei &amp; Holzbau.
+              Hinweis: Dieses Impressum gilt für diese Website sowie ggf.
+              verbundene Online-Auftritte von DS Zimmerei &amp; Holzbau.
             </p>
           </motion.div>
 
@@ -144,31 +157,39 @@ export default function ImpressumSection() {
                   <p className="mt-1 text-lg md:text-xl font-semibold text-gray-900">
                     Zimmerermeister Dennis Steckel
                   </p>
-                  <p className="mt-1 text-xs text-gray-500">Anschrift wie oben.</p>
+                  <p className="mt-1 text-xs text-gray-500">
+                    Anschrift wie oben.
+                  </p>
                 </div>
               </div>
 
               <div className="mt-6 space-y-5 text-sm text-gray-600">
                 <div>
-                  <h3 className="font-semibold text-gray-900">Haftung für Inhalte</h3>
+                  <h3 className="font-semibold text-gray-900">
+                    Haftung für Inhalte
+                  </h3>
                   <p className="mt-2 leading-relaxed">
-                    Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene Inhalte
-                    nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind
-                    wir jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde
-                    Informationen zu überwachen oder nach Umständen zu forschen, die auf
-                    eine rechtswidrige Tätigkeit hinweisen.
+                    Als Diensteanbieter sind wir gemäß § 7 Abs. 1 TMG für eigene
+                    Inhalte nach den allgemeinen Gesetzen verantwortlich. Nach
+                    §§ 8 bis 10 TMG sind wir jedoch nicht verpflichtet,
+                    übermittelte oder gespeicherte fremde Informationen zu
+                    überwachen oder nach Umständen zu forschen, die auf eine
+                    rechtswidrige Tätigkeit hinweisen.
                   </p>
                 </div>
 
                 <div className="h-px bg-black/10" />
 
                 <div>
-                  <h3 className="font-semibold text-gray-900">Haftung für Links</h3>
+                  <h3 className="font-semibold text-gray-900">
+                    Haftung für Links
+                  </h3>
                   <p className="mt-2 leading-relaxed">
-                    Unser Angebot enthält ggf. Links zu externen Websites Dritter, auf deren
-                    Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden
-                    Inhalte keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist
-                    stets der jeweilige Anbieter oder Betreiber verantwortlich.
+                    Unser Angebot enthält ggf. Links zu externen Websites
+                    Dritter, auf deren Inhalte wir keinen Einfluss haben.
+                    Deshalb können wir für diese fremden Inhalte keine Gewähr
+                    übernehmen. Für die Inhalte der verlinkten Seiten ist stets
+                    der jeweilige Anbieter oder Betreiber verantwortlich.
                   </p>
                 </div>
 
@@ -177,16 +198,19 @@ export default function ImpressumSection() {
                 <div>
                   <h3 className="font-semibold text-gray-900">Urheberrecht</h3>
                   <p className="mt-2 leading-relaxed">
-                    Die durch den Seitenbetreiber erstellten Inhalte und Werke unterliegen dem
-                    deutschen Urheberrecht. Vervielfältigung, Bearbeitung, Verbreitung und jede
-                    Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der
-                    schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+                    Die durch den Seitenbetreiber erstellten Inhalte und Werke
+                    unterliegen dem deutschen Urheberrecht. Vervielfältigung,
+                    Bearbeitung, Verbreitung und jede Art der Verwertung
+                    außerhalb der Grenzen des Urheberrechtes bedürfen der
+                    schriftlichen Zustimmung des jeweiligen Autors bzw.
+                    Erstellers.
                   </p>
                 </div>
 
                 <div className="mt-6 rounded-xl border border-black/10 bg-[#f2f4f6] p-4 text-[11px] text-gray-500 leading-relaxed">
-                  Tipp: Wenn du Medien/Logos/Fotos von Dritten nutzt, nenne ggf. die Quellen/
-                  Rechteinhaber hier oder auf einer separaten Seite.
+                  Tipp: Wenn du Medien/Logos/Fotos von Dritten nutzt, nenne ggf.
+                  die Quellen/ Rechteinhaber hier oder auf einer separaten
+                  Seite.
                 </div>
               </div>
             </div>

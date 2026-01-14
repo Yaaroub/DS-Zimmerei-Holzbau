@@ -41,14 +41,7 @@ export default function ProjekteSection() {
           { src: "/projekte/molfsee/molfsee-energetische-dachsanierung-09.webp", alt: "Dachfläche mit Dachfenster – Sanierung Molfsee." },
         ],
       },
-      {
-        title: "Neubau in moderner Holzbauweise",
-        badge: "Neubau · Holzbau",
-        images: [
-          { src: "/projekte/neubau/neubau-holzbau-01.webp", alt: "Neubau Holzbau – Glasfront & Dachüberstand." },
-          { src: "/projekte/neubau/neubau-holzbau-02.webp", alt: "Neubau Holzhaus mit Holzfassade." },
-        ],
-      },
+     
       {
         title: "Energetische Sanierung Einfamilienhaus Stocksee",
         badge: "Sanierung",

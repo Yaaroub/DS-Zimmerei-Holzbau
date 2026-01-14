@@ -101,10 +101,10 @@ export default function DatenschutzSection() {
                   <div className="flex items-center gap-2">
                     <Mail className="h-4 w-4 text-[#17E800]" />
                     <a
-                      href="mailto:info@ds-zimmerei.de"
+                      href="mailto:kontakt@ds-zimmerei-holzbau.de"
                       className="underline underline-offset-4 hover:text-black"
                     >
-                      info@ds-zimmerei.de
+                      kontakt@ds-zimmerei-holzbau.de
                     </a>
                   </div>
                   <div className="flex items-center gap-2">
