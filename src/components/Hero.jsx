@@ -66,7 +66,7 @@ export default function Hero() {
                 sauber umgesetzt und zuverlässig betreut.
               </p>
 
-              {/* CTA */}
+              
               <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-3">
                 <a
                   href="#kontakt"
