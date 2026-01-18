@@ -17,38 +17,93 @@ export default function ProjekteSection() {
       {
         title: "Dachsanierung Reihenendhaus in Preetz",
         badge: "Dachsanierung",
+        location: "Preetz",
+        summary:
+          "Gaube, erneuerte Dachfläche und saubere Anschlüsse – inkl. Edelstahl-Schornstein.",
         images: [
-          { src: "/projekte/dachsanierungpreetz/dachsanierungpreetz1.webp", alt: "Dachsanierung Preetz – neue Dachfläche." },
-          { src: "/projekte/dachsanierungpreetz/dachsanierungpreetz2.webp", alt: "Gaube und Edelstahlkamin Preetz." },
-          { src: "/projekte/dachsanierungpreetz/dachsanierungpreetz3.webp", alt: "Neue Fenster und Dachdeckung – Preetz." },
-          { src: "/projekte/dachsanierungpreetz/dachsanierungpreetz4.webp", alt: "Reihenendhaus Dachsanierung Preetz." },
-          { src: "/projekte/dachsanierungpreetz/dachsanierungpreetz5.webp", alt: "Gaubenfront saniert Preetz." },
-          { src: "/projekte/dachsanierungpreetz/dachsanierungpreetz6.webp", alt: "Dachanschlüsse sauber ausgeführt – Preetz." },
+          {
+            src: "/projekte/dachsanierungpreetz/dachsanierungpreetz1.webp",
+            alt: "Gaube mit erneuerter Boden-Deckel-Schalung sowie mit Stehfalz verkleideter Schornstein.",
+          },
+          {
+            src: "/projekte/dachsanierungpreetz/dachsanierungpreetz2.webp",
+            alt: "Gaube und Edelstahlschornstein.",
+          },
+          {
+            src: "/projekte/dachsanierungpreetz/dachsanierungpreetz3.webp",
+            alt: "Reihenendhaus Rückseite.",
+          },
+          {
+            src: "/projekte/dachsanierungpreetz/dachsanierungpreetz5.webp",
+            alt: "Reihenendhaus Vorderseite.",
+          },
+          {
+            src: "/projekte/dachsanierungpreetz/dachsanierungpreetz6.webp",
+            alt: "Ortgang mit HPL, weiß und Formsteinen.",
+          },
         ],
       },
       {
         title: "Energetische Dachsanierung in Molfsee",
         badge: "Energetische Sanierung",
+        location: "Molfsee",
+        summary:
+          "Giebelverkleidung „Mammut“ (anthrazit/grau) mit Ortgang – vorbereitet für PV.",
         images: [
-          { src: "/projekte/molfsee/molfsee-energetische-dachsanierung-01.webp", alt: "Energetische Dachsanierung Molfsee – moderner Giebel." },
-          { src: "/projekte/molfsee/molfsee-energetische-dachsanierung-02.webp", alt: "Neue Fassadenverkleidung Garage Molfsee." },
-          { src: "/projekte/molfsee/molfsee-energetische-dachsanierung-03.webp", alt: "PV-Dachfläche energetisch saniert Molfsee." },
-          { src: "/projekte/molfsee/molfsee-energetische-dachsanierung-04.webp", alt: "Neuer Giebelbereich nach Sanierung Molfsee." },
-          { src: "/projekte/molfsee/molfsee-energetische-dachsanierung-05.webp", alt: "Ortgangverkleidung energetisch modernisiert Molfsee." },
-          { src: "/projekte/molfsee/molfsee-energetische-dachsanierung-06.webp", alt: "Gaubenverkleidung nach Sanierung – Molfsee." },
-          { src: "/projekte/molfsee/molfsee-energetische-dachsanierung-07.webp", alt: "Detail neue Fassadenelemente Molfsee." },
-          { src: "/projekte/molfsee/molfsee-energetische-dachsanierung-08.webp", alt: "PV-Anlage Dach – energetische Sanierung Molfsee." },
-          { src: "/projekte/molfsee/molfsee-energetische-dachsanierung-09.webp", alt: "Dachfläche mit Dachfenster – Sanierung Molfsee." },
+          {
+            src: "/projekte/molfsee/molfsee-energetische-dachsanierung-01.webp",
+            alt: `Giebelverkleidung "Mammut" anthrazit. `,
+          },
+          {
+            src: "/projekte/molfsee/molfsee-energetische-dachsanierung-02.webp",
+            alt: `Unterschläge "Mammut" grau.`,
+          },
+        
+          {
+            src: "/projekte/molfsee/molfsee-energetische-dachsanierung-04.webp",
+            alt: "Details Giebel.",
+          },
+          {
+            src: "/projekte/molfsee/molfsee-energetische-dachsanierung-05.webp",
+            alt: `Garage mit neues "Mammut" - Fassade.`,
+          },
+          {
+            src: "/projekte/molfsee/molfsee-energetische-dachsanierung-06.webp",
+            alt: `energetisch sanierte Gaube mit "mammut" - Fassade.`,
+          },
+          {
+            src: "/projekte/molfsee/molfsee-energetische-dachsanierung-07.webp",
+            alt: "Details Eingangsbereich.",
+          },
+          {
+            src: "/projekte/molfsee/molfsee-energetische-dachsanierung-08.webp",
+            alt: "PV-Anlage Rückseite.",
+          },
+          {
+            src: "/projekte/molfsee/molfsee-energetische-dachsanierung-09.webp",
+            alt: "neu erstellte Gaube + Schornstein Stehfalz anthrazit.",
+          },
         ],
       },
-     
       {
         title: "Energetische Sanierung Einfamilienhaus Stocksee",
         badge: "Sanierung",
+        location: "Stocksee",
+        summary:
+          "Giebelansicht vorher/nachher – neue Fassadenelemente und modernisierte Hülle.",
         images: [
-          { src: "/projekte/stocksee/sanierung-stocksee-01.webp", alt: "EFH Stocksee energetisch saniert – neue Fassade und Dach." },
-          { src: "/projekte/stocksee/sanierung-stocksee-02.webp", alt: "Stocksee Sanierung – neue Fassadendetails." },
-          { src: "/projekte/stocksee/sanierung-stocksee-03.webp", alt: "Neugestalteter Wohnraum mit Giebelfenster zum See." },
+          {
+            src: "/projekte/stocksee/sanierung-stocksee-01.webp",
+            alt: "Giebelansicht vorher.",
+          },
+          {
+            src: "/projekte/stocksee/sanierung-stocksee-02.webp",
+            alt: "Giebel mit neuen Fensterelementen.",
+          },
+          {
+            src: "/projekte/stocksee/sanierung-stocksee-03.webp",
+            alt: "Neugestalteter Wohnraum mit Giebelfenster zum See.",
+          },
         ],
       },
     ],
@@ -102,7 +157,8 @@ export default function ProjekteSection() {
             Ausgewählte Arbeiten – Dach, Holzbau &amp; Sanierung
           </h2>
           <p className="text-brand-textMuted text-sm md:text-base max-w-2xl mx-auto mt-3 leading-relaxed">
-            Eine Auswahl realisierter Projekte – hochwertig, langlebig und handwerklich präzise umgesetzt.
+            Eine Auswahl realisierter Projekte – hochwertig, langlebig und
+            handwerklich präzise umgesetzt.
           </p>
         </div>
 
@@ -137,7 +193,7 @@ export default function ProjekteSection() {
                 "
               >
                 {/* media */}
-                <div className="relative w-full aspect-[4/3] bg-slate-100">
+                <div className="relative w-full aspect-[4/3] ">
                   <Image
                     src={cover.src}
                     alt={cover.alt}
@@ -147,7 +203,7 @@ export default function ProjekteSection() {
                     className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                   />
 
-                  {/* premium overlay: dunkle scrim für Lesbarkeit */}
+                  {/* premium overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/15 to-transparent opacity-90" />
 
                   {/* badge */}
@@ -156,6 +212,15 @@ export default function ProjekteSection() {
                       {p.badge}
                     </span>
                   </div>
+
+                  {/* location */}
+                  {p.location ? (
+                    <div className="absolute bottom-4 left-4">
+                      <span className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[10px] uppercase tracking-[0.2em] font-semibold text-white backdrop-blur-md">
+                        {p.location}
+                      </span>
+                    </div>
+                  ) : null}
                 </div>
 
                 {/* content */}
@@ -164,15 +229,24 @@ export default function ProjekteSection() {
                     {p.title}
                   </h3>
 
-                  <div className="mt-2 flex items-center justify-between text-xs text-brand-textMuted">
+                  {p.summary ? (
+                    <p className="mt-2 text-sm text-brand-textMuted leading-relaxed">
+                      {p.summary}
+                    </p>
+                  ) : null}
+
+                  <div className="mt-3 flex items-center justify-between text-xs text-brand-textMuted">
                     <span>{p.images.length} Fotos</span>
                     <span className="inline-flex items-center gap-1 text-brand-green font-semibold">
-                      Ansehen <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                      Ansehen{" "}
+                      <span className="transition-transform group-hover:translate-x-0.5">
+                        →
+                      </span>
                     </span>
                   </div>
                 </div>
 
-                {/* hover ring (premium detail) */}
+                {/* hover ring */}
                 <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-transparent group-hover:ring-brand-green/20 transition" />
               </motion.button>
             );

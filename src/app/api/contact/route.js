@@ -354,41 +354,77 @@ Web: https://ds-zimmerei-holzbau.de
 
       const autoHtml = `
 <div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#0f172a;">
-  <div style="height:4px;width:100%;background:#17E800;margin-bottom:18px;"></div>
 
-  <p style="margin:0 0 12px;"><strong>Hallo ${escapeHtml(customerName)},</strong></p>
+  <!-- Message -->
+  <p style="margin:0 0 12px;">
+    <strong>Hallo ${escapeHtml(customerName)},</strong>
+  </p>
 
-  <p style="margin:0 0 10px;">vielen Dank für Ihre Anfrage.</p>
-  <p style="margin:0 0 10px;">Wir haben Ihre Nachricht erhalten und melden uns zeitnah persönlich bei Ihnen.</p>
+  <p style="margin:0 0 10px;">
+    vielen Dank für Ihre Anfrage.
+  </p>
 
-  <div style="margin-top:24px;">
-    <p style="margin:0;">
-      Mit freundlichen Grüßen<br>
-      <strong>DS Zimmerei &amp; Holzbau</strong><br>
-      <span style="color:#475569;">Zimmerermeister Dennis Steckel</span>
+  <p style="margin:0 0 18px;">
+    Wir haben Ihre Nachricht erhalten und melden uns zeitnah persönlich bei Ihnen.
+  </p>
+
+  <!-- Green line = start of signature -->
+  <div style="
+    height:4px;
+    width:100%;
+    background:#17E800;
+    border-radius:2px 2px 0 0;
+  "></div>
+
+  <!-- Signature block -->
+  <div style="
+    background:#0f172a;
+    color:#e5e7eb;
+    padding:18px 18px 16px;
+    border-radius:0 0 12px 12px;
+  ">
+    <p style="margin:0 0 6px;color:#ffffff;">
+      <strong>DS Zimmerei &amp; Holzbau</strong>
     </p>
 
-    <p style="margin:12px 0 0;font-size:13px;color:#475569;">
-      Telefon: <a href="tel:+491729759134" style="color:#0f172a;text-decoration:none;">0172&nbsp;9759134</a><br>
-      E-Mail: <a href="mailto:kontakt@ds-zimmerei-holzbau.de" style="color:#0f172a;text-decoration:none;">kontakt@ds-zimmerei-holzbau.de</a><br>
-      Web: <a href="https://ds-zimmerei-holzbau.de" style="color:#0f172a;text-decoration:none;">ds-zimmerei-holzbau.de</a>
+    <p style="margin:0 0 10px;color:#cbd5e1;">
+      Zimmerermeister Dennis Steckel
+    </p>
+
+    <p style="margin:0 0 10px;font-size:13px;color:#cbd5e1;">
+      Telefon:
+      <a href="tel:+491729759134" style="color:#e5e7eb;text-decoration:none;">
+        0172&nbsp;9759134
+      </a><br>
+      E-Mail:
+      <a href="mailto:kontakt@ds-zimmerei-holzbau.de" style="color:#e5e7eb;text-decoration:none;">
+        kontakt@ds-zimmerei-holzbau.de
+      </a><br>
+      Web:
+      <a href="https://ds-zimmerei-holzbau.de" style="color:#e5e7eb;text-decoration:none;">
+        ds-zimmerei-holzbau.de
+      </a>
     </p>
 
     ${
       logoAttachment
-        ? `<div style="margin-top:16px;">
-             <img src="cid:dslogo" alt="DS Zimmerei & Holzbau" width="200" style="display:block;border:0;outline:none;text-decoration:none;">
+        ? `<div style="margin-top:14px;">
+             <img
+               src="cid:dslogo"
+               alt="DS Zimmerei & Holzbau"
+               width="200"
+               style="display:block;border:0;outline:none;text-decoration:none;"
+             />
            </div>`
         : ""
     }
   </div>
 
-  <hr style="margin:22px 0;border:none;border-top:1px solid #e5e7eb;">
-
-  <p style="font-size:11px;color:#6b7280;margin:0;">
+  <p style="margin-top:10px;font-size:11px;color:#6b7280;">
     Diese E-Mail wurde automatisch generiert. Bitte antworten Sie nicht direkt auf diese Nachricht.
   </p>
 </div>
+
 `;
 
       try {

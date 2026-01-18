@@ -1,4 +1,3 @@
-// src/components/LeistungenSection.jsx
 "use client";
 
 export default function LeistungenSection() {
@@ -19,8 +18,9 @@ export default function LeistungenSection() {
           </h2>
 
           <p className="text-brand-textMuted mt-4 max-w-xl mx-auto text-sm md:text-base">
-            Handwerkliche Meisterqualität für Neubau, Sanierung und individuelle
-            Holzbauprojekte.
+            Fachgerechte Holzbauarbeiten für Neubau, Sanierung und Reparatur –
+            geplant und umgesetzt mit handwerklicher Präzision und hochwertigen
+            Materialien.
           </p>
         </div>
 
@@ -34,10 +34,11 @@ export default function LeistungenSection() {
 
             <ul className="space-y-2 text-brand-textMuted text-sm md:text-base">
               <li className="list-disc ml-5">Neu- und Anbauten</li>
-              <li className="list-disc ml-5">Gauben</li>
-              <li className="list-disc ml-5">Dachstühle</li>
-              <li className="list-disc ml-5">Dachsanierungen</li>
+              <li className="list-disc ml-5">Dachstühle &amp; Gauben</li>
+              <li className="list-disc ml-5">Dachsanierungen &amp; Reparaturen</li>
               <li className="list-disc ml-5">Carports &amp; Terrassen</li>
+              <li className="list-disc ml-5">Holzfassaden</li>
+              <li className="list-disc ml-5">Zäune &amp; konstruktive Holzbauten</li>
               <li className="list-disc ml-5">
                 Energetische Sanierung der Gebäudehülle
               </li>
@@ -51,12 +52,15 @@ export default function LeistungenSection() {
             </h3>
 
             <ul className="space-y-2 text-brand-textMuted text-sm md:text-base">
-              <li className="list-disc ml-5">Einbauten</li>
+              <li className="list-disc ml-5">Einbauten nach Maß</li>
               <li className="list-disc ml-5">Innentüren</li>
               <li className="list-disc ml-5">
                 Türen &amp; Fenster (Neubau &amp; Austausch)
               </li>
-              <li className="list-disc ml-5">Dachflächenfenster (Velux)</li>
+              <li className="list-disc ml-5">
+                Dachflächenfenster (z. B. Velux)
+              </li>
+              <li className="list-disc ml-5">Trockenbauarbeiten</li>
             </ul>
           </div>
         </div>

@@ -10,8 +10,8 @@ export default function HomePage() {
     <main className=" text-white min-h-screen">
       <Hero />
       <LeistungenSection />
-      <WarumWirSection />
       <UeberUnsSection />
+      <WarumWirSection />
       <ProjekteSection />
       <KontaktSection />
       

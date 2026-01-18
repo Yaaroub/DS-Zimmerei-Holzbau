@@ -25,7 +25,8 @@ export default function KontaktSection() {
 
   const validate = (payload) => {
     if (!payload.name?.trim()) return "Bitte geben Sie Ihren Namen an.";
-    if (!payload.email?.trim()) return "Bitte geben Sie Ihre E-Mail-Adresse an.";
+    if (!payload.email?.trim())
+      return "Bitte geben Sie Ihre E-Mail-Adresse an.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email))
       return "Bitte geben Sie eine gültige E-Mail-Adresse an.";
 
@@ -49,13 +50,13 @@ export default function KontaktSection() {
     setSent(false);
     setErrorMsg("");
     setLoading(true);
-  
+
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 20_000); // 20s
-  
+
     try {
       const formData = new FormData(e.target);
-  
+
       const payload = {
         name: (formData.get("name") || "").toString(),
         telefon: (formData.get("telefon") || "").toString(),
@@ -71,16 +72,16 @@ export default function KontaktSection() {
         dsgvo: formData.get("dsgvo") === "ja",
         website: (formData.get("website") || "").toString(),
       };
-  
+
       const err = validate(payload);
       if (err) throw new Error(err);
-  
+
       const res = await fetch("/api/contact", {
         method: "POST",
         body: formData,
         signal: controller.signal,
       });
-  
+
       // robust: JSON if possible, otherwise text
       const ct = res.headers.get("content-type") || "";
       let data = {};
@@ -90,7 +91,7 @@ export default function KontaktSection() {
         const txt = await res.text().catch(() => "");
         data = { error: txt?.slice(0, 300) || "" };
       }
-  
+
       if (!res.ok || data?.ok === false) {
         const detail = data?.error ? ` (${data.error})` : "";
         throw new Error(
@@ -98,15 +99,17 @@ export default function KontaktSection() {
             "Fehler beim Senden. Bitte später erneut versuchen."
         );
       }
-  
+
       setSent(true);
       e.target.reset();
       setWantCallback(false);
     } catch (err) {
       console.error(err);
-  
+
       if (err?.name === "AbortError") {
-        setErrorMsg("Zeitüberschreitung. Bitte erneut versuchen oder uns direkt anrufen.");
+        setErrorMsg(
+          "Zeitüberschreitung. Bitte erneut versuchen oder uns direkt anrufen."
+        );
       } else {
         setErrorMsg(
           err?.message ||
@@ -118,7 +121,6 @@ export default function KontaktSection() {
       setLoading(false);
     }
   };
-  
 
   return (
     <section
@@ -142,15 +144,17 @@ export default function KontaktSection() {
               Angebot anfordern oder Rückruf vereinbaren
             </h2>
             <p className="text-brand-textMuted text-sm md:text-base max-w-xl leading-relaxed">
-              Beschreiben Sie uns Ihr Vorhaben – wir melden uns zeitnah mit Rückfragen
-              oder einem unverbindlichen Angebot.
+              Beschreiben Sie uns Ihr Vorhaben – wir melden uns zeitnah mit
+              Rückfragen oder einem unverbindlichen Angebot.
             </p>
           </div>
 
           <div className="grid gap-3 text-sm text-brand-textMuted">
             <p>• Zimmerei- &amp; Dacharbeiten für Neu- und Bestandsbauten</p>
             <p>• Sanierungen, Gauben, Carports, Terrassen, Fassaden</p>
-            <p>• Fenster- &amp; Türenaustausch, Innenausbau, Dachflächenfenster</p>
+            <p>
+              • Fenster- &amp; Türenaustausch, Innenausbau, Dachflächenfenster
+            </p>
           </div>
 
           {/* Rückruf Info Box */}
@@ -172,7 +176,8 @@ export default function KontaktSection() {
                 Wir melden uns telefonisch bei Ihnen.
               </p>
               <p className="mt-2 text-sm text-brand-textMuted leading-relaxed">
-                Telefonnummer eintragen und Rückruf aktivieren – optional mit Wunschzeit.
+                Telefonnummer eintragen und Rückruf aktivieren – optional mit
+                Wunschzeit.
               </p>
             </div>
           </div>
@@ -181,10 +186,16 @@ export default function KontaktSection() {
           <div className="rounded-2xl border border-brand-border bg-white/70 p-5 md:p-6 shadow-[0_12px_30px_rgba(15,23,42,0.06)]">
             <p className="text-sm font-semibold">Direktkontakt</p>
             <div className="mt-3 grid gap-2 text-sm text-brand-textMuted">
-              <a className="underline underline-offset-4 hover:text-brand-text" href="tel:+491729759134">
+              <a
+                className="underline underline-offset-4 hover:text-brand-text"
+                href="tel:+491729759134"
+              >
                 Telefon: 0172 9759134
               </a>
-              <a className="underline underline-offset-4 hover:text-brand-text" href="mailto:kontakt@ds-zimmerei-holzbau.de">
+              <a
+                className="underline underline-offset-4 hover:text-brand-text"
+                href="mailto:kontakt@ds-zimmerei-holzbau.de"
+              >
                 E-Mail: kontakt@ds-zimmerei-holzbau.de
               </a>
             </div>
@@ -206,7 +217,12 @@ export default function KontaktSection() {
             <div className="hidden">
               <label>
                 Website
-                <input name="website" type="text" tabIndex={-1} autoComplete="off" />
+                <input
+                  name="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
               </label>
             </div>
 
@@ -255,7 +271,9 @@ export default function KontaktSection() {
                   <option value="Beratung">Beratung</option>
                   <option value="Angebot">Angebot</option>
                   <option value="Reparatur">Reparatur</option>
-                  <option value="Notfall/Sturmschaden">Notfall / Sturmschaden</option>
+                  <option value="Notfall/Sturmschaden">
+                    Notfall / Sturmschaden
+                  </option>
                 </select>
               </div>
             </div>
@@ -284,7 +302,10 @@ export default function KontaktSection() {
 
               <div>
                 <label className="block mb-1 text-brand-textMuted">
-                  Telefon {wantCallback ? <span className="text-brand-green">*</span> : null}
+                  Telefon{" "}
+                  {wantCallback ? (
+                    <span className="text-brand-green">*</span>
+                  ) : null}
                 </label>
                 <input
                   name="telefon"
@@ -363,7 +384,9 @@ export default function KontaktSection() {
             </div>
 
             <div>
-              <label className="block mb-1 text-brand-textMuted">Straße / Hausnummer (optional)</label>
+              <label className="block mb-1 text-brand-textMuted">
+                Straße / Hausnummer (optional)
+              </label>
               <input
                 name="strasse"
                 type="text"
@@ -400,30 +423,9 @@ export default function KontaktSection() {
               />
             </div>
 
-            {/* Upload */}
-            <div>
-              <label className="block mb-1 text-brand-textMuted">
-                Dateien (optional)
-              </label>
-              <input
-                name="files"
-                type="file"
-                multiple
-                accept="image/*,application/pdf"
-                className="
-                  w-full rounded-lg bg-white
-                  border border-brand-border px-3 py-2
-                  text-xs text-brand-textMuted
-                  file:mr-4 file:rounded-full file:border-0
-                  file:bg-brand-green/15 file:px-4 file:py-2
-                  file:text-xs file:font-semibold file:text-brand-text
-                  hover:file:bg-brand-green/20
-                "
-              />
-              <p className="mt-2 text-[11px] text-brand-textMuted">
-                Fotos oder PDFs helfen uns, schneller einzuschätzen (max. Größe abhängig vom Server).
-              </p>
-            </div>
+            <p className="text-[11px] text-brand-textMuted">
+              Fotos/PDFs können Sie nach dem Erstkontakt per E-Mail nachreichen.
+            </p>
 
             {/* Rückruf-Option */}
             <div className="mt-3 space-y-2">
@@ -474,7 +476,8 @@ export default function KontaktSection() {
                     "
                   />
                   <p className="mt-2 text-[11px] text-brand-textMuted">
-                    Tipp: Wenn es dringend ist, schreiben Sie „Dringend“ in die Nachricht.
+                    Tipp: Wenn es dringend ist, schreiben Sie „Dringend“ in die
+                    Nachricht.
                   </p>
                 </div>
               )}
@@ -498,9 +501,12 @@ export default function KontaktSection() {
                   required
                 />
                 <label htmlFor="dsgvo" className="text-xs text-brand-textMuted">
-                  Ich stimme zu, dass meine Angaben zur Bearbeitung meiner Anfrage verarbeitet
-                  werden. Weitere Infos in der{" "}
-                  <a href="/datenschutz" className="underline underline-offset-4 hover:text-brand-text">
+                  Ich stimme zu, dass meine Angaben zur Bearbeitung meiner
+                  Anfrage verarbeitet werden. Weitere Infos in der{" "}
+                  <a
+                    href="/datenschutz"
+                    className="underline underline-offset-4 hover:text-brand-text"
+                  >
                     Datenschutzerklärung
                   </a>
                   .
@@ -529,8 +535,9 @@ export default function KontaktSection() {
             {sent && (
               <div className="rounded-xl border border-brand-green/25 bg-brand-green/10 px-4 py-3">
                 <p className="text-xs text-brand-text">
-                  <span className="font-semibold">Vielen Dank!</span> Ihre Nachricht wurde
-                  erfolgreich übermittelt. Wir melden uns zeitnah bei Ihnen.
+                  <span className="font-semibold">Vielen Dank!</span> Ihre
+                  Nachricht wurde erfolgreich übermittelt. Wir melden uns
+                  zeitnah bei Ihnen.
                 </p>
               </div>
             )}
@@ -542,7 +549,8 @@ export default function KontaktSection() {
             )}
 
             <p className="text-[11px] text-brand-textMuted mt-4 leading-relaxed">
-              Hinweis: Bitte keine sensiblen Daten (z.B. Gesundheitsdaten) über das Formular senden.
+              Hinweis: Bitte keine sensiblen Daten (z.B. Gesundheitsdaten) über
+              das Formular senden.
             </p>
           </form>
         </div>

@@ -1,18 +1,22 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 
 const NAV_LINKS = [
   { href: "/#leistungen", label: "Leistungen", id: "leistungen" },
-  { href: "/#warum-wir", label: "Warum wir", id: "warum-wir" },
   { href: "/#ueber", label: "Über uns", id: "ueber" },
+  { href: "/#warum-wir", label: "Warum wir", id: "warum-wir" },
   { href: "/#projekte", label: "Projekte", id: "projekte" },
   { href: "/#kontakt", label: "Kontakt", id: "kontakt" },
 ];
 
 export default function Navbar() {
+  const router = useRouter();
+  const pathname = usePathname();
+
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState(null);
@@ -28,46 +32,132 @@ export default function Navbar() {
     []
   );
 
-  useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 10);
+  // ✅ Logo always scrolls to top (even if already on "/")
+  const handleLogoClick = useCallback(
+    (e) => {
+      e.preventDefault();
+      setIsOpen(false);
 
-      let current = null;
-      for (const link of NAV_LINKS) {
-        const el = document.getElementById(link.id);
-        if (!el) continue;
-
-        const top = el.offsetTop - offset;
-        const bottom = top + el.offsetHeight;
-
-        if (y >= top && y < bottom) {
-          current = link.id;
-          break;
-        }
+      if (pathname === "/") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
       }
-      setActiveSection(current);
+
+      router.push("/");
+      // smooth scroll right after route change starts
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    },
+    [pathname, router]
+  );
+
+  // ✅ Smooth + reliable hash navigation (works from subpages too)
+  const handleNavClick = useCallback(
+    (href) => (e) => {
+      // only handle in-page anchors like "/#kontakt"
+      if (!href.startsWith("/#")) return;
+
+      e.preventDefault();
+      setIsOpen(false);
+
+      const id = href.replace("/#", "");
+      const scrollToId = () => {
+        const el = document.getElementById(id);
+        if (!el) return false;
+
+        const y =
+          el.getBoundingClientRect().top + window.scrollY - offset + 1;
+        window.scrollTo({ top: y, behavior: "smooth" });
+        return true;
+      };
+
+      // already on homepage -> just scroll
+      if (pathname === "/") {
+        // wait a tick so drawer closes and layout settles
+        requestAnimationFrame(() => scrollToId());
+        return;
+      }
+
+      // from subpage -> go home, then scroll
+      router.push(href);
+
+      // try a few times until section exists (after render)
+      let tries = 0;
+      const maxTries = 30;
+
+      const tick = () => {
+        tries += 1;
+        if (scrollToId()) return;
+        if (tries < maxTries) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    },
+    [offset, pathname, router]
+  );
+
+  // ✅ Scroll spy (throttled via rAF for better perf)
+  useEffect(() => {
+    let raf = null;
+
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = null;
+
+        const y = window.scrollY;
+        setScrolled(y > 10);
+
+        // Only compute active section on homepage (prevents useless work on /impressum etc.)
+        if (pathname !== "/") {
+          setActiveSection(null);
+          return;
+        }
+
+        let current = null;
+        for (const link of NAV_LINKS) {
+          const el = document.getElementById(link.id);
+          if (!el) continue;
+
+          const top = el.offsetTop - offset;
+          const bottom = top + el.offsetHeight;
+
+          if (y >= top && y < bottom) {
+            current = link.id;
+            break;
+          }
+        }
+        setActiveSection(current);
+      });
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
-      document.body.style.overflow = "";
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [offset, pathname]);
+
+  // BODY scroll lock for drawer
+  useEffect(() => {
+    const body = document.body;
+    const prevOverflow = body.style.overflow;
+    body.style.overflow = isOpen ? "hidden" : prevOverflow || "";
+    return () => {
+      body.style.overflow = prevOverflow || "";
     };
   }, [isOpen]);
 
+  // ESC closes drawer
   useEffect(() => {
     const onKeyDown = (e) => e.key === "Escape" && setIsOpen(false);
     if (isOpen) window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [isOpen]);
 
-  // Close drawer if switching to desktop (prevents stuck "overflow:hidden")
+  // Close drawer if switching to desktop
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth >= 768) setIsOpen(false);
@@ -77,7 +167,7 @@ export default function Navbar() {
   }, []);
 
   const desktopItemClass = (id) => {
-    const isActive = activeSection === id;
+    const isActive = activeSection === id && pathname === "/";
     return `
       relative select-none
       px-2.5 lg:px-3 py-2 rounded-full
@@ -100,13 +190,12 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Top Glow line (Premium detail) */}
+      {/* Top Glow line */}
       <div className="fixed top-0 left-0 w-full z-50 pointer-events-none">
         <div className="h-[1px] bg-gradient-to-r from-transparent via-white/25 to-transparent" />
       </div>
 
       <header className="fixed top-0 left-0 w-full z-40">
-        {/* Responsive outer padding */}
         <div
           className={[
             "mx-auto max-w-7xl",
@@ -115,7 +204,6 @@ export default function Navbar() {
             scrolled ? "pt-2.5 sm:pt-3" : "pt-3 sm:pt-4",
           ].join(" ")}
         >
-          {/* Premium glass container */}
           <div
             className={[
               "flex items-center justify-between",
@@ -132,15 +220,17 @@ export default function Navbar() {
             <div className="flex items-center gap-2 sm:gap-3 pl-2.5 sm:pl-3">
               <Link
                 href="/"
+                onClick={handleLogoClick}
                 className="flex items-center gap-2 select-none focus:outline-none focus-visible:ring-2 focus-visible:ring-white/30 rounded-xl"
+                aria-label="Zur Startseite"
               >
-                <div className="rounded-xl bg-white/ border border-white/10 p-1">
+                <div className="rounded-xl border border-white/10 bg-white/5 p-1">
                   <Image
                     src="/ds-logo.svg"
                     alt="DS Zimmerei & Holzbau"
                     width={96}
                     height={96}
-                    priority
+                    // ✅ no priority here; hero should take priority
                     className={[
                       "w-auto transition-all duration-300",
                       scrolled ? "h-8 sm:h-9" : "h-9 sm:h-10",
@@ -148,7 +238,6 @@ export default function Navbar() {
                   />
                 </div>
 
-                {/* Title shows from sm+; tightens on md */}
                 <div className="hidden sm:flex flex-col leading-tight">
                   <span className="text-white font-semibold tracking-tight text-sm md:text-base">
                     DS Zimmerei
@@ -160,19 +249,19 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Center: Desktop Nav (md+) */}
+            {/* Center: Desktop Nav */}
             <nav className="hidden md:flex items-center gap-1">
               {NAV_LINKS.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={handleNavClick(item.href)}
                   className={desktopItemClass(item.id)}
                 >
                   {item.label}
                 </Link>
               ))}
 
-              {/* Hide divider on smaller desktop widths to avoid squeezing */}
               <div className="mx-1.5 lg:mx-2 h-6 w-px bg-white/10 hidden lg:block" />
 
               <Link
@@ -191,9 +280,9 @@ export default function Navbar() {
 
             {/* Right */}
             <div className="flex items-center gap-2 pr-2.5 sm:pr-3">
-              {/* CTA Desktop (md+) */}
               <Link
                 href="/#kontakt"
+                onClick={handleNavClick("/#kontakt")}
                 className="
                   hidden md:inline-flex items-center justify-center
                   px-3.5 lg:px-4 py-2 rounded-full
@@ -208,7 +297,6 @@ export default function Navbar() {
                 Angebot
               </Link>
 
-              {/* Mobile burger */}
               <button
                 className="
                   md:hidden inline-flex items-center justify-center
@@ -242,14 +330,12 @@ export default function Navbar() {
         ].join(" ")}
         aria-hidden={!isOpen}
       >
-        {/* Backdrop */}
         <button
           className="absolute inset-0 bg-black/70 backdrop-blur-sm"
           onClick={() => setIsOpen(false)}
           aria-label="Menü schließen"
         />
 
-        {/* Panel */}
         <aside
           className={[
             "absolute right-0 top-0 h-full w-[86%] max-w-sm",
@@ -294,7 +380,7 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                onClick={() => setIsOpen(false)}
+                onClick={handleNavClick(item.href)}
                 className={mobileItemClass(true)}
               >
                 <span className="text-base sm:text-lg font-semibold">
@@ -304,7 +390,6 @@ export default function Navbar() {
               </Link>
             ))}
 
-            {/* Legal links appear inside drawer for md screens too (since lg hides them in top bar) */}
             <div className="my-3 h-px bg-white/10" />
 
             <div className="grid grid-cols-2 gap-2">
@@ -326,7 +411,7 @@ export default function Navbar() {
 
             <Link
               href="/#kontakt"
-              onClick={() => setIsOpen(false)}
+              onClick={handleNavClick("/#kontakt")}
               className="
                 mt-4 inline-flex items-center justify-center
                 rounded-2xl px-5 py-4
