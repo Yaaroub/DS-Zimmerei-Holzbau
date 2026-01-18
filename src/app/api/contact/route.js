@@ -36,7 +36,9 @@ function rateLimitOrThrow(ip) {
   rateStore.set(ip, entry);
 
   if (entry.count > RATE_MAX) {
-    const err = new Error("Zu viele Anfragen. Bitte kurz warten und erneut versuchen.");
+    const err = new Error(
+      "Zu viele Anfragen. Bitte kurz warten und erneut versuchen."
+    );
     err.status = 429;
     throw err;
   }
@@ -60,7 +62,16 @@ function isAllowedFileType(file) {
   if (t.startsWith("image/")) return true;
   if (t === "application/pdf") return true;
 
-  const allowedExt = [".jpg", ".jpeg", ".png", ".webp", ".gif", ".heic", ".heif", ".pdf"];
+  const allowedExt = [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".webp",
+    ".gif",
+    ".heic",
+    ".heif",
+    ".pdf",
+  ];
   return allowedExt.some((ext) => name.endsWith(ext));
 }
 
@@ -69,7 +80,14 @@ function toBase64(buffer) {
 }
 
 function assertEnv() {
-  const required = ["SMTP_HOST", "SMTP_PORT", "SMTP_USER", "SMTP_PASS", "MAIL_FROM", "MAIL_TO"];
+  const required = [
+    "SMTP_HOST",
+    "SMTP_PORT",
+    "SMTP_USER",
+    "SMTP_PASS",
+    "MAIL_FROM",
+    "MAIL_TO",
+  ];
   const missing = required.filter((k) => !process.env[k]);
   if (missing.length) {
     const err = new Error(`Server-Konfiguration fehlt: ${missing.join(", ")}`);
@@ -120,7 +138,10 @@ export async function POST(req) {
     const contentType = req.headers.get("content-type") || "";
     if (!contentType.toLowerCase().includes("multipart/form-data")) {
       return Response.json(
-        { ok: false, error: "Ungültiger Request (multipart/form-data erwartet)." },
+        {
+          ok: false,
+          error: "Ungültiger Request (multipart/form-data erwartet).",
+        },
         { status: 415 }
       );
     }
@@ -147,7 +168,10 @@ export async function POST(req) {
 
     // Validate
     if (!name) {
-      return Response.json({ ok: false, error: "Bitte geben Sie Ihren Namen an." }, { status: 400 });
+      return Response.json(
+        { ok: false, error: "Bitte geben Sie Ihren Namen an." },
+        { status: 400 }
+      );
     }
     if (!email || !isValidEmail(email)) {
       return Response.json(
@@ -157,13 +181,19 @@ export async function POST(req) {
     }
     if (!dsgvo) {
       return Response.json(
-        { ok: false, error: "Bitte stimmen Sie der Datenverarbeitung zu (DSGVO)." },
+        {
+          ok: false,
+          error: "Bitte stimmen Sie der Datenverarbeitung zu (DSGVO).",
+        },
         { status: 400 }
       );
     }
     if (rueckruf && !telefon) {
       return Response.json(
-        { ok: false, error: "Für einen Rückruf benötigen wir Ihre Telefonnummer." },
+        {
+          ok: false,
+          error: "Für einen Rückruf benötigen wir Ihre Telefonnummer.",
+        },
         { status: 400 }
       );
     }
@@ -179,8 +209,12 @@ export async function POST(req) {
     });
 
     const MAX_FILES = Number(process.env.CONTACT_MAX_FILES || 5);
-    const MAX_FILE_BYTES = Number(process.env.CONTACT_MAX_FILE_BYTES || 7_000_000);
-    const MAX_TOTAL_BYTES = Number(process.env.CONTACT_MAX_TOTAL_BYTES || 15_000_000);
+    const MAX_FILE_BYTES = Number(
+      process.env.CONTACT_MAX_FILE_BYTES || 7_000_000
+    );
+    const MAX_TOTAL_BYTES = Number(
+      process.env.CONTACT_MAX_TOTAL_BYTES || 15_000_000
+    );
 
     if (files.length > MAX_FILES) {
       return Response.json(
@@ -205,7 +239,9 @@ export async function POST(req) {
         return Response.json(
           {
             ok: false,
-            error: `Eine Datei ist zu groß (max. ${Math.round(MAX_FILE_BYTES / 1e6)} MB).`,
+            error: `Eine Datei ist zu groß (max. ${Math.round(
+              MAX_FILE_BYTES / 1e6
+            )} MB).`,
           },
           { status: 400 }
         );
@@ -216,7 +252,9 @@ export async function POST(req) {
         return Response.json(
           {
             ok: false,
-            error: `Anhänge insgesamt zu groß (max. ${Math.round(MAX_TOTAL_BYTES / 1e6)} MB).`,
+            error: `Anhänge insgesamt zu groß (max. ${Math.round(
+              MAX_TOTAL_BYTES / 1e6
+            )} MB).`,
           },
           { status: 400 }
         );
@@ -233,7 +271,9 @@ export async function POST(req) {
     }
 
     // Prepare main email
-    const subjectLine = `[DS Zimmerei] ${betreff || "Kontaktanfrage"} — ${name}`;
+    const subjectLine = `[DS Zimmerei] ${
+      betreff || "Kontaktanfrage"
+    } — ${name}`;
 
     const text = [
       `Neue Kontaktanfrage über ds-zimmerei-holzbau.de`,
@@ -296,7 +336,9 @@ export async function POST(req) {
     nachricht || "-"
   )}</pre>
   <p style="margin:14px 0 0; color:#6b7280; font-size:12px;">
-    IP: ${escapeHtml(ip)} · UA: ${escapeHtml(cleanText(req.headers.get("user-agent"), 300) || "-")}
+    IP: ${escapeHtml(ip)} · UA: ${escapeHtml(
+      cleanText(req.headers.get("user-agent"), 300) || "-"
+    )}
   </p>
 </div>
 `;
@@ -315,7 +357,9 @@ export async function POST(req) {
     });
 
     // 2) optional auto reply (PNG logo via CID)
-    const AUTO = (process.env.CONTACT_SEND_AUTOREPLY || "").trim().toLowerCase();
+    const AUTO = (process.env.CONTACT_SEND_AUTOREPLY || "")
+      .trim()
+      .toLowerCase();
     const sendAutoReply = ["true", "1", "yes", "y", "on"].includes(AUTO);
 
     if (sendAutoReply) {
@@ -367,6 +411,10 @@ Web: https://ds-zimmerei-holzbau.de
   <p style="margin:0 0 18px;">
     Wir haben Ihre Nachricht erhalten und melden uns zeitnah persönlich bei Ihnen.
   </p>
+  <p style="margin:0 0 10px;">
+    Mit freundlichen Grüßen<br/>
+    <p/>
+  
 
   <!-- Green line = start of signature -->
   <div style="
@@ -468,13 +516,6 @@ Web: https://ds-zimmerei-holzbau.de
     return Response.json({ ok: false, error: msg }, { status });
   }
 }
-
-
-
-
-
-
-
 
 // import { Resend } from "resend";
 
