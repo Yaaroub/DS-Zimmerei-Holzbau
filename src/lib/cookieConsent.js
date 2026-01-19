@@ -1,17 +1,15 @@
 // src/lib/cookieConsent.js
 
-export const CONSENT_KEY = "ds_cookie_consent_v1"; // versionieren wenn Text/Kategorien ändern
+export const CONSENT_KEY = "ds_cookie_consent_v1";
+export const CONSENT_DAYS = 180;
 
 export const defaultConsent = {
   necessary: true,
-  functional: false,
-  analytics: false,
-  marketing: false,
   updatedAt: null,
 };
 
 // Cookie helpers
-export function setCookie(name, value, days = 180) {
+export function setCookie(name, value, days = CONSENT_DAYS) {
   const maxAge = days * 24 * 60 * 60;
   document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(
     value
@@ -26,7 +24,6 @@ export function getCookie(name) {
 }
 
 export function readConsent() {
-  // Try cookie first (useful if you later read it server-side)
   const fromCookie = getCookie(CONSENT_KEY);
   if (fromCookie) {
     try {
@@ -35,7 +32,7 @@ export function readConsent() {
     } catch (_) {}
   }
 
-  // Fallback to localStorage
+  // fallback
   if (typeof window !== "undefined") {
     const raw = window.localStorage.getItem(CONSENT_KEY);
     if (raw) {
@@ -46,30 +43,28 @@ export function readConsent() {
     }
   }
 
-  return null; // null = noch nicht entschieden -> Banner zeigen
+  return null; // noch nicht entschieden
 }
 
-export function writeConsent(consent) {
+export function writeConsent() {
   const payload = {
-    ...defaultConsent,
-    ...consent,
     necessary: true,
     updatedAt: new Date().toISOString(),
   };
 
   const json = JSON.stringify(payload);
   window.localStorage.setItem(CONSENT_KEY, json);
-  setCookie(CONSENT_KEY, json, 180);
+  setCookie(CONSENT_KEY, json, CONSENT_DAYS);
 
-  // optional: event, damit andere Teile reagieren können
-  window.dispatchEvent(new CustomEvent("cookie-consent-changed", { detail: payload }));
+  window.dispatchEvent(
+    new CustomEvent("cookie-consent-changed", { detail: payload })
+  );
 
   return payload;
 }
 
 export function clearConsent() {
   window.localStorage.removeItem(CONSENT_KEY);
-  // Cookie löschen
   document.cookie = `${encodeURIComponent(CONSENT_KEY)}=; Path=/; Max-Age=0; SameSite=Lax`;
   window.dispatchEvent(new CustomEvent("cookie-consent-cleared"));
 }

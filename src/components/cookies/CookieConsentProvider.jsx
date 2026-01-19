@@ -6,12 +6,11 @@ import { defaultConsent, readConsent, writeConsent } from "@/lib/cookieConsent";
 const ConsentContext = createContext(null);
 
 export function CookieConsentProvider({ children }) {
-  const [consent, setConsent] = useState(null); // null = unentschieden
+  const [consent, setConsent] = useState(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const existing = readConsent();
-    setConsent(existing); // null wenn noch nichts
+    setConsent(readConsent());
     setReady(true);
 
     const onChanged = (e) => setConsent(e.detail);
@@ -32,9 +31,7 @@ export function CookieConsentProvider({ children }) {
       consent,
       hasDecision: consent !== null,
       effective: consent ?? defaultConsent,
-      acceptAll: () => setConsent(writeConsent({ functional: true, analytics: true, marketing: true })),
-      acceptNecessary: () => setConsent(writeConsent({ functional: false, analytics: false, marketing: false })),
-      save: (next) => setConsent(writeConsent(next)),
+      acceptNecessary: () => setConsent(writeConsent()), // nur ein Button nötig
     };
   }, [consent, ready]);
 
