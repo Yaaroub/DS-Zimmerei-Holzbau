@@ -1,8 +1,14 @@
 // src/components/Footer.jsx
+"use client";
+
 import Image from "next/image";
 
 export default function Footer() {
   const year = new Date().getFullYear();
+
+  const openCookieSettings = () => {
+    window.dispatchEvent(new Event("open-cookie-settings"));
+  };
 
   return (
     <footer className="bg-brand-bg text-brand-text border-t border-brand-border">
@@ -11,7 +17,6 @@ export default function Footer() {
 
       <div className="max-w-7xl mx-auto px-6 py-12 md:py-16">
         <div className="grid gap-12 md:grid-cols-[1.3fr,1fr,1fr]">
-          
           {/* Spalte 1: Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
@@ -41,9 +46,7 @@ export default function Footer() {
 
           {/* Spalte 2: Kontakt */}
           <div className="space-y-3 text-sm">
-            <h3 className="text-base font-semibold">
-              Kontakt &amp; Betrieb
-            </h3>
+            <h3 className="text-base font-semibold">Kontakt &amp; Betrieb</h3>
 
             <div className="space-y-1 text-brand-textMuted">
               <p>DS Zimmerei &amp; Holzbau</p>
@@ -106,9 +109,7 @@ export default function Footer() {
             </div>
 
             <div>
-              <h3 className="text-base font-semibold">
-                Rechtliches
-              </h3>
+              <h3 className="text-base font-semibold">Rechtliches</h3>
               <div className="mt-2 flex flex-wrap gap-4 text-xs text-brand-textMuted">
                 <a href="/impressum" className="hover:text-brand-green transition">
                   Impressum
@@ -116,6 +117,15 @@ export default function Footer() {
                 <a href="/datenschutz" className="hover:text-brand-green transition">
                   Datenschutz
                 </a>
+
+                {/* NEU: Cookie Einstellungen */}
+                <button
+                  type="button"
+                  onClick={openCookieSettings}
+                  className="hover:text-brand-green transition"
+                >
+                  Cookie-Einstellungen
+                </button>
               </div>
             </div>
           </div>
