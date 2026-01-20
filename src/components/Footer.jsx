@@ -100,7 +100,7 @@ export default function Footer() {
             <div>
               <h3 className="text-base font-semibold">Leistungen</h3>
               <ul className="mt-2 space-y-1 text-brand-textMuted">
-                <li>• Zimmerei &amp; Dachdeckerarbeiten</li>
+                <li>• Zimmerer - &amp; Dachdeckerarbeiten</li>
                 <li>• Gauben, Anbauten, Carports</li>
                 <li>• Dachsanierungen &amp; Dämmung</li>
                 <li>• Fassaden &amp; Giebelverkleidung</li>
