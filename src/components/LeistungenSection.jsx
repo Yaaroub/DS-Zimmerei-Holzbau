@@ -14,7 +14,7 @@ export default function LeistungenSection() {
           </p>
 
           <h2 className="text-3xl md:text-4xl font-bold mt-2">
-            Zimmerei · Dachdeckerarbeiten · Innenausbau
+          Zimmererarbeiten · Dachdeckerarbeiten · Innenausbau
           </h2>
 
           <p className="text-brand-textMuted mt-4 max-w-xl mx-auto text-sm md:text-base">
@@ -29,7 +29,7 @@ export default function LeistungenSection() {
           {/* Box 1 */}
           <div className="rounded-2xl border border-brand-border bg-brand-surface p-6 md:p-7 shadow-sm transition hover:-translate-y-1 hover:border-brand-green/40 hover:shadow-md">
             <h3 className="text-xl font-semibold text-brand-green mb-4">
-              Zimmerei &amp; Dachdeckerarbeiten
+              Zimmererarbeiten &amp; Dachdeckerarbeiten
             </h3>
 
             <ul className="space-y-2 text-brand-textMuted text-sm md:text-base">
@@ -48,7 +48,7 @@ export default function LeistungenSection() {
           {/* Box 2 */}
           <div className="rounded-2xl border border-brand-border bg-brand-surface p-6 md:p-7 shadow-sm transition hover:-translate-y-1 hover:border-brand-green/40 hover:shadow-md">
             <h3 className="text-xl font-semibold text-brand-green mb-4">
-              Baudischlerei &amp; Innenausbau
+              Bautischlerei &amp; Innenausbau
             </h3>
 
             <ul className="space-y-2 text-brand-textMuted text-sm md:text-base">

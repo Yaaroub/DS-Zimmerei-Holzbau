@@ -36,7 +36,7 @@ export default function UeberUnsSection() {
           <p className="text-brand-textMuted leading-[1.75] tracking-[0.01em]">
             Handwerkliches Arbeiten ist für mich weit mehr als nur ein Beruf –
             es ist eine echte Leidenschaft. <strong>Qualität</strong>,{" "}
-            <strong>Präzision</strong> und <strong>Verantwortung</strong>
+            <strong>Präzision</strong> und <strong>Verantwortung </strong>
             prägen meinen Arbeitsalltag. Ich stehe für saubere Ausführung,
             ehrliche Beratung und praxisnahe Lösungen rund um Dach, Holzbau
             und Innenausbau.
@@ -92,7 +92,7 @@ export default function UeberUnsSection() {
           </div>
 
           <ul className="space-y-3 text-sm md:text-base text-brand-textMuted">
-            <li>• Persönliche Betreuung ohne anonyme Hotline</li>
+            <li>• Persönliche Betreuung</li>
             <li>• Durchdachte Planung von Dach, Holzbau &amp; Ausbau</li>
             <li>• Individuelle Lösungen statt Standardpakete</li>
             <li>• Bewährte Materialien und saubere Ausführung</li>

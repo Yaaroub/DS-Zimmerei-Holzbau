@@ -49,7 +49,7 @@ export default function WarumWirSection() {
             Unser Betrieb hat sich auf{" "}
             <strong>klassische Zimmererarbeiten und modernen Holzbau</strong>{" "}
             spezialisiert. Dazu zählen unter anderem
-            <strong>
+            <strong> {" "}
               Dachstühle, Holzrahmenbau, Carports, Terrassen, Holzfassaden sowie
               Sanierungen und Reparaturen
             </strong>

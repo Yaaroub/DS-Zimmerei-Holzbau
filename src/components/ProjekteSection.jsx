@@ -65,11 +65,11 @@ export default function ProjekteSection() {
           },
           {
             src: "/projekte/molfsee/molfsee-energetische-dachsanierung-05.webp",
-            alt: `Garage mit neues "Mammut" - Fassade.`,
+            alt: `Garage mit neuer "Mammut" - Fassade.`,
           },
           {
             src: "/projekte/molfsee/molfsee-energetische-dachsanierung-06.webp",
-            alt: `energetisch sanierte Gaube mit "mammut" - Fassade.`,
+            alt: `energetisch sanierte Gaube mit "Mammut" - Fassade.`,
           },
           {
             src: "/projekte/molfsee/molfsee-energetische-dachsanierung-07.webp",
