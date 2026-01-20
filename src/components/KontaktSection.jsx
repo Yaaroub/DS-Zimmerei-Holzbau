@@ -2,6 +2,73 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useCookieConsent } from "@/components/cookies/CookieConsentProvider";
+function GoogleMapEmbed() {
+  const { effective, acceptAll } = useCookieConsent();
+
+  if (!effective.external) {
+    return (
+      <div className="rounded-lg border border-brand-border bg-white p-4">
+        <p className="text-sm font-semibold">Karte (Google Maps)</p>
+        <p className="mt-1 text-xs text-brand-textMuted">
+          Externe Inhalte sind deaktiviert. Zum Laden der Karte bitte zustimmen.
+        </p>
+
+        <div className="mt-3 flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={acceptAll}
+            className="
+              inline-flex items-center justify-center
+              rounded-full bg-brand-green px-4 py-2
+              text-xs font-semibold text-black
+              hover:brightness-110 transition
+            "
+          >
+            Karte laden
+          </button>
+
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event("open-cookie-settings"))}
+            className="
+              inline-flex items-center justify-center
+              rounded-full border border-brand-border bg-white px-4 py-2
+              text-xs font-semibold text-brand-textMuted
+              hover:text-brand-text hover:border-brand-green/40 transition
+            "
+          >
+            Einstellungen
+          </button>
+        </div>
+
+        <p className="mt-3 text-[11px] md:text-xs text-brand-textMuted leading-relaxed">
+          Hinweis: Beim Laden der Karte können Daten an Google übertragen werden.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className="relative w-full overflow-hidden rounded-lg border border-brand-border bg-white h-[120px] sm:h-[140px] md:h-[160px]">
+        <iframe
+          title="DS Zimmerei & Holzbau – Google Maps"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2334.1809263008035!2d10.483522811669367!3d54.19458047243291!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b267e6e06c85e1%3A0x2d127a08d29f8f8f!2sDS%20Zimmerei%20%26%20Holzbau!5e0!3m2!1sde!2sde!4v1768941897096!5m2!1sde!2sde"
+          className="absolute inset-0 h-full w-full"
+          style={{ border: 0 }}
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          allowFullScreen
+        />
+      </div>
+
+      <p className="mt-3 text-[11px] md:text-xs text-brand-textMuted leading-relaxed">
+        Hinweis: Beim Laden der Karte können Daten an Google übertragen werden.
+      </p>
+    </>
+  );
+}
 
 export default function KontaktSection() {
   const [sent, setSent] = useState(false);
@@ -200,6 +267,54 @@ export default function KontaktSection() {
               </a>
             </div>
           </div>
+          {/* Mini Google Map */}
+<div
+  className="
+    rounded-xl border border-brand-border bg-white/60
+    p-4
+    shadow-[0_8px_20px_rgba(15,23,42,0.05)]
+  "
+>
+  <div className="flex items-start justify-between gap-3">
+    <div>
+      <p className="text-sm font-semibold">Standort</p>
+      <p className="mt-0.5 text-xs text-brand-textMuted">
+        DS Zimmerei &amp; Holzbau
+      </p>
+    </div>
+
+    <a
+      href="https://www.google.com/maps?cid=3247349287802319231"
+      target="_blank"
+      rel="noreferrer"
+      className="
+        text-[11px]
+        underline underline-offset-4
+        text-brand-textMuted
+        hover:text-brand-text
+        whitespace-nowrap
+      "
+    >
+      Google Maps
+    </a>
+  </div>
+
+  <div
+    className="
+      relative mt-3 w-full overflow-hidden rounded-lg
+      border border-brand-border bg-white
+      h-[120px] sm:h-[140px] md:h-[160px]
+    "
+  >
+<GoogleMapEmbed />
+
+  </div>
+
+  <p className="mt-3 text-[11px] md:text-xs text-brand-textMuted leading-relaxed">
+    Hinweis: Beim Laden der Karte können Daten an Google übertragen werden.
+  </p>
+</div>
+
         </div>
 
         {/* Formular */}

@@ -153,14 +153,40 @@ export default function DatenschutzSection() {
               </Card>
 
               <Card
-                icon={Database}
-                title="Cookies & Tracking"
-                className="sm:col-span-2"
-              >
-                Diese Website verwendet keine Tracking- oder Marketing-Cookies.
-                Es kommen ausschließlich technisch notwendige Serverdaten zum
-                Einsatz. Ein Cookie-Banner ist nicht erforderlich.
-              </Card>
+  icon={Database}
+  title="Cookies & Einwilligung"
+  className="sm:col-span-2"
+>
+  Wir setzen ausschließlich technisch notwendige Cookies ein, um Ihre
+  Cookie-Auswahl zu speichern und die Website sicher bereitzustellen.
+  Tracking- oder Marketing-Cookies werden nicht verwendet.
+  <br />
+  <br />
+  Externe Inhalte (z. B. Google Maps) werden nur geladen, wenn Sie dem
+  zustimmen. Ihre Einwilligung können Sie jederzeit über{" "}
+  <span className="font-medium text-gray-900">„Cookie-Einstellungen“</span>{" "}
+  im Footer ändern.
+</Card>
+<Card
+  icon={Globe}
+  title="Google Maps (externe Inhalte)"
+  className="sm:col-span-2"
+>
+  Auf unserer Website kann eine Karte von Google Maps eingebunden sein.
+  Beim Laden der Karte können Daten (z. B. IP-Adresse) an Google
+  übermittelt werden. Die Karte wird daher erst nach Ihrer Einwilligung
+  geladen.
+  <br />
+  <br />
+  Anbieter: Google Ireland Limited, Gordon House, Barrow Street, Dublin 4,
+  Irland (ggf. Datenübermittlung in Drittländer möglich). Rechtsgrundlage:
+  <span className="font-medium text-gray-900">
+    {" "}
+    Art. 6 Abs. 1 lit. a DSGVO
+  </span>{" "}
+  (Einwilligung).
+</Card>
+
 
               <Card
                 icon={FileText}
@@ -224,10 +250,11 @@ export default function DatenschutzSection() {
                 <div>
                   <h3 className="font-semibold text-gray-900">Empfänger & Hosting</h3>
                   <p className="mt-2 leading-relaxed">
-                    Hosting kann durch einen externen Anbieter erfolgen, der
-                    personenbezogene Daten ausschließlich im Auftrag und gemäß
-                    Art. 28 DSGVO verarbeitet.
-                  </p>
+  Das Hosting erfolgt über einen externen Dienstleister. Dieser verarbeitet
+  personenbezogene Daten (z. B. Server-Logs) in unserem Auftrag bzw. als
+  eigenständiger Verantwortlicher gemäß den jeweiligen Vertragsbedingungen.
+</p>
+
                 </div>
 
                 <div className="mt-6 rounded-xl border border-black/10 bg-[#f2f4f6] p-4 text-[11px] text-gray-500 leading-relaxed">

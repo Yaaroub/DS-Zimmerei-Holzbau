@@ -1,10 +1,11 @@
 // src/lib/cookieConsent.js
 
-export const CONSENT_KEY = "ds_cookie_consent_v1";
+export const CONSENT_KEY = "ds_cookie_consent_v2"; // v2 wegen neuem Schema
 export const CONSENT_DAYS = 180;
 
 export const defaultConsent = {
   necessary: true,
+  external: false, // NEW: Google Maps / externe Inhalte
   updatedAt: null,
 };
 
@@ -32,7 +33,6 @@ export function readConsent() {
     } catch (_) {}
   }
 
-  // fallback
   if (typeof window !== "undefined") {
     const raw = window.localStorage.getItem(CONSENT_KEY);
     if (raw) {
@@ -46,8 +46,10 @@ export function readConsent() {
   return null; // noch nicht entschieden
 }
 
-export function writeConsent() {
+export function writeConsent(next) {
   const payload = {
+    ...defaultConsent,
+    ...next,
     necessary: true,
     updatedAt: new Date().toISOString(),
   };
@@ -61,6 +63,14 @@ export function writeConsent() {
   );
 
   return payload;
+}
+
+export function acceptNecessaryOnly() {
+  return writeConsent({ external: false });
+}
+
+export function acceptAll() {
+  return writeConsent({ external: true });
 }
 
 export function clearConsent() {

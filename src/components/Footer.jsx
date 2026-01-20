@@ -3,6 +3,46 @@
 
 import Image from "next/image";
 
+function IconInstagram(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4A5.8 5.8 0 0 1 16.2 22H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
+      <path
+        d="M12 16.2A4.2 4.2 0 1 0 12 7.8a4.2 4.2 0 0 0 0 8.4Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+      />
+      <path
+        d="M17.6 6.6h.01"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function IconFacebook(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M14 9h2V6.6c0-1.3 1-2.6 2.9-2.6H21v3h-1.7c-.5 0-.8.3-.8.8V9H21l-.5 3H18.5V22h-3.3V12H13V9h2.2V7.2c0-2.8 1.6-5.2 5.2-5.2"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M8 22V12H5.5V9H8V6.8C8 4.3 9.6 2 13 2"
+        opacity=".0"
+      />
+    </svg>
+  );
+}
+
 export default function Footer() {
   const year = new Date().getFullYear();
 
@@ -42,6 +82,50 @@ export default function Footer() {
             <p className="text-xs uppercase tracking-[0.18em] text-brand-textMuted">
               Meisterbetrieb · Zimmerei · Dach · Holzbau
             </p>
+            {/* ✅ Social Icons (dezent, passend) */}
+            <div className="pt-2">
+              <p className="text-xs uppercase tracking-[0.18em] text-brand-textMuted">
+                Social Media
+              </p>
+
+              <div className="mt-2 flex flex-wrap gap-2">
+                <a
+                  href="https://www.instagram.com/dennis.steckel?igsh=MXNvNXJsdWhteTgzaQ=="
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Instagram – DS Zimmerei & Holzbau"
+                  className="
+                    inline-flex items-center gap-2
+                    rounded-full border border-brand-border bg-white/70
+                    px-3 py-2
+                    text-xs text-brand-textMuted
+                    hover:text-brand-text hover:border-brand-green/40
+                    transition
+                  "
+                >
+                  <IconInstagram className="h-4 w-4" />
+                  Instagram
+                </a>
+
+                <a
+                  href="https://www.facebook.com/share/1CAasiKx7k/"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Facebook – DS Zimmerei & Holzbau"
+                  className="
+                    inline-flex items-center gap-2
+                    rounded-full border border-brand-border bg-white/70
+                    px-3 py-2
+                    text-xs text-brand-textMuted
+                    hover:text-brand-text hover:border-brand-green/40
+                    transition
+                  "
+                >
+                  <IconFacebook className="h-4 w-4" />
+                  Facebook
+                </a>
+              </div>
+            </div>
           </div>
 
           {/* Spalte 2: Kontakt */}
@@ -76,23 +160,8 @@ export default function Footer() {
               </p>
             </div>
 
-            <div className="mt-4">
-              <a
-                href="#kontakt"
-                className="
-                  inline-flex items-center justify-center
-                  rounded-full
-                  bg-brand-green
-                  px-4 py-2
-                  text-xs font-semibold text-black
-                  shadow-sm
-                  hover:brightness-110
-                  transition
-                "
-              >
-                Angebot anfordern
-              </a>
-            </div>
+
+            
           </div>
 
           {/* Spalte 3: Leistungen & Rechtliches */}

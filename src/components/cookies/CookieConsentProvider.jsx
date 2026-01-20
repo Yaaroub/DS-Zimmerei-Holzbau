@@ -1,7 +1,13 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { defaultConsent, readConsent, writeConsent } from "@/lib/cookieConsent";
+import {
+  defaultConsent,
+  readConsent,
+  writeConsent,
+  acceptNecessaryOnly,
+  acceptAll,
+} from "@/lib/cookieConsent";
 
 const ConsentContext = createContext(null);
 
@@ -26,12 +32,22 @@ export function CookieConsentProvider({ children }) {
   }, []);
 
   const api = useMemo(() => {
+    const effective = consent ?? defaultConsent;
+
     return {
       ready,
       consent,
       hasDecision: consent !== null,
-      effective: consent ?? defaultConsent,
-      acceptNecessary: () => setConsent(writeConsent()), // nur ein Button nötig
+      effective,
+
+      acceptNecessary: () => setConsent(acceptNecessaryOnly()),
+      acceptAll: () => setConsent(acceptAll()),
+
+      setExternal: (value) => setConsent(writeConsent({ external: !!value })),
+      clear: () => {
+        // optional falls du es brauchst, sonst weglassen
+        // clearConsent()
+      },
     };
   }, [consent, ready]);
 

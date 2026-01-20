@@ -16,6 +16,7 @@ const NAV_LINKS = [
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
+  const isSubpage = pathname !== "/";
 
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -211,9 +212,10 @@ export default function Navbar() {
               "rounded-2xl border",
               "shadow-[0_10px_40px_-20px_rgba(0,0,0,0.65)]",
               "transition-all duration-300",
-              scrolled
-                ? "bg-black/55 backdrop-blur-xl border-white/12"
-                : "bg-black/30 backdrop-blur-md border-white/10",
+              (scrolled || isSubpage)
+  ? "bg-black/55 backdrop-blur-xl border-white/12"
+  : "bg-black/30 backdrop-blur-md border-white/10"
+
             ].join(" ")}
           >
             {/* Left */}
