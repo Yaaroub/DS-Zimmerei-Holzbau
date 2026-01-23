@@ -178,6 +178,12 @@ export async function POST(req) {
         { ok: false, error: "Bitte geben Sie eine gültige E-Mail-Adresse an." },
         { status: 400 }
       );
+      if (!nachricht) {
+        return Response.json(
+          { ok: false, error: "Bitte beschreiben Sie Ihr Vorhaben / Projekt." },
+          { status: 400 }
+        );
+      }
     }
     if (!dsgvo) {
       return Response.json(

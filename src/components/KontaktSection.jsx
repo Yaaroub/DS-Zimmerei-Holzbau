@@ -3,6 +3,7 @@
 
 import { useMemo, useState } from "react";
 import { useCookieConsent } from "@/components/cookies/CookieConsentProvider";
+
 function GoogleMapEmbed() {
   const { effective, acceptAll } = useCookieConsent();
 
@@ -30,7 +31,9 @@ function GoogleMapEmbed() {
 
           <button
             type="button"
-            onClick={() => window.dispatchEvent(new Event("open-cookie-settings"))}
+            onClick={() =>
+              window.dispatchEvent(new Event("open-cookie-settings"))
+            }
             className="
               inline-flex items-center justify-center
               rounded-full border border-brand-border bg-white px-4 py-2
@@ -96,6 +99,10 @@ export default function KontaktSection() {
       return "Bitte geben Sie Ihre E-Mail-Adresse an.";
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email))
       return "Bitte geben Sie eine gültige E-Mail-Adresse an.";
+
+    // ✅ Pflichtfeld: Ihr Vorhaben / Projekt (läuft als "nachricht")
+    if (!payload.nachricht?.trim())
+      return "Bitte beschreiben Sie Ihr Vorhaben / Projekt.";
 
     if (payload.rueckruf) {
       if (!payload.telefon?.trim())
@@ -249,7 +256,7 @@ export default function KontaktSection() {
             </div>
           </div>
 
-          {/* Quick contact row (optional) */}
+          {/* Quick contact row */}
           <div className="rounded-2xl border border-brand-border bg-white/70 p-5 md:p-6 shadow-[0_12px_30px_rgba(15,23,42,0.06)]">
             <p className="text-sm font-semibold">Direktkontakt</p>
             <div className="mt-3 grid gap-2 text-sm text-brand-textMuted">
@@ -267,54 +274,43 @@ export default function KontaktSection() {
               </a>
             </div>
           </div>
-          {/* Mini Google Map */}
-<div
-  className="
-    rounded-xl border border-brand-border bg-white/60
-    p-4
-    shadow-[0_8px_20px_rgba(15,23,42,0.05)]
-  "
->
-  <div className="flex items-start justify-between gap-3">
-    <div>
-      <p className="text-sm font-semibold">Standort</p>
-      <p className="mt-0.5 text-xs text-brand-textMuted">
-        DS Zimmerei &amp; Holzbau
-      </p>
-    </div>
 
-    <a
-      href="https://www.google.com/maps?cid=3247349287802319231"
-      target="_blank"
-      rel="noreferrer"
-      className="
-        text-[11px]
-        underline underline-offset-4
-        text-brand-textMuted
-        hover:text-brand-text
-        whitespace-nowrap
-      "
-    >
-      Google Maps
-    </a>
-  </div>
+          {/* Mini Google Map (ohne doppelten Hinweis/Wrapper) */}
+          <div
+            className="
+              rounded-xl border border-brand-border bg-white/60
+              p-4
+              shadow-[0_8px_20px_rgba(15,23,42,0.05)]
+            "
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold">Standort</p>
+                <p className="mt-0.5 text-xs text-brand-textMuted">
+                  DS Zimmerei &amp; Holzbau
+                </p>
+              </div>
 
-  <div
-    className="
-      relative mt-3 w-full overflow-hidden rounded-lg
-      border border-brand-border bg-white
-      h-[120px] sm:h-[140px] md:h-[160px]
-    "
-  >
-<GoogleMapEmbed />
+              <a
+                href="https://www.google.com/maps?cid=3247349287802319231"
+                target="_blank"
+                rel="noreferrer"
+                className="
+                  text-[11px]
+                  underline underline-offset-4
+                  text-brand-textMuted
+                  hover:text-brand-text
+                  whitespace-nowrap
+                "
+              >
+                Google Maps
+              </a>
+            </div>
 
-  </div>
-
-  <p className="mt-3 text-[11px] md:text-xs text-brand-textMuted leading-relaxed">
-    Hinweis: Beim Laden der Karte können Daten an Google übertragen werden.
-  </p>
-</div>
-
+            <div className="mt-3">
+              <GoogleMapEmbed />
+            </div>
+          </div>
         </div>
 
         {/* Formular */}
@@ -461,7 +457,7 @@ export default function KontaktSection() {
               />
             </div>
 
-            {/* Adresse (optional aber hilfreich) */}
+            {/* Adresse */}
             <div className="grid md:grid-cols-3 gap-4">
               <div>
                 <label className="block mb-1 text-brand-textMuted">PLZ</label>
@@ -517,14 +513,15 @@ export default function KontaktSection() {
               />
             </div>
 
-            {/* Nachricht */}
+            {/* Ihr Vorhaben / Projekt (✅ Pflichtfeld) */}
             <div>
               <label className="block mb-1 text-brand-textMuted">
-                Ihr Vorhaben / Projekt
+                Ihr Vorhaben / Projekt <span className="text-brand-green">*</span>
               </label>
               <textarea
                 name="nachricht"
                 rows={4}
+                required
                 className="
                   w-full rounded-lg bg-white
                   border border-brand-border px-3 py-2
@@ -536,6 +533,9 @@ export default function KontaktSection() {
                 "
                 placeholder="z.B. Dachsanierung, Gaube, Anbau, Carport, Fenster-/Türentausch…"
               />
+              <p className="mt-2 text-[11px] text-brand-textMuted leading-relaxed">
+                Bitte kurz beschreiben: Was soll gemacht werden? Wo (Ort/PLZ)? Und bis wann?
+              </p>
             </div>
 
             <p className="text-[11px] text-brand-textMuted">
