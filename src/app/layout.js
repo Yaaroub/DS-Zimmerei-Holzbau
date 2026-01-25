@@ -2,6 +2,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // ✅ Cookies
 import { CookieConsentProvider } from "@/components/cookies/CookieConsentProvider";
@@ -83,8 +84,7 @@ export default function RootLayout({ children }) {
           <Navbar />
           {children}
           <Footer />
-
-          {/* ✅ global, damit Footer "Cookie-Einstellungen" öffnen kann */}
+          <SpeedInsights />
           <CookieBanner />
         </CookieConsentProvider>
       </body>
