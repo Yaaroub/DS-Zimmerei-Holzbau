@@ -13,20 +13,44 @@ const inter = Inter({
   display: "swap",
 });
 
-const siteUrl = "https://www.ds-zimmerei-holzbau.de"; // TODO: anpassen
+const siteUrl = "https://ds-zimmerei-holzbau.de";
 const siteName = "DS Zimmerei & Holzbau";
 
 export const metadata = {
+  // ✅ Wichtig: sorgt für absolute URLs (OG, canonical, etc.)
+  metadataBase: new URL(siteUrl),
+
   title: {
     default: "DS Zimmerei & Holzbau – Zimmerei & Dacharbeiten in Schleswig-Holstein",
     template: "%s | DS Zimmerei & Holzbau",
   },
+
   description:
     "DS Zimmerei & Holzbau – Meisterbetrieb für Zimmerei, Dacharbeiten & Holzbau in Schleswig-Holstein. Tätig in Kiel, Lübeck, Flensburg, Neumünster, Elmshorn, Norderstedt, Rendsburg, Plön & Umgebung.",
+
+  // ✅ Canonical (Pages können das überschreiben)
+  alternates: {
+    canonical: "/",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+
   openGraph: {
     title: "DS Zimmerei & Holzbau – Zimmerei & Dacharbeiten in Schleswig-Holstein",
     description:
       "Meisterbetrieb für Zimmerei, Dacharbeiten & Holzbau in Schleswig-Holstein – aktiv in Kiel, Lübeck, Flensburg, Neumünster, Elmshorn, Norderstedt, Rendsburg & Plön.",
+    url: siteUrl,
+    siteName,
     locale: "de_DE",
     type: "website",
     images: [
@@ -38,8 +62,14 @@ export const metadata = {
       },
     ],
   },
+
+  
+
   icons: {
-    icon: [{ url: "/favicon.ico" }, { url: "/ds-logo.svg", type: "image/svg+xml" }],
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/ds-logo.svg", type: "image/svg+xml" },
+    ],
     apple: "/ds-logo.svg",
     shortcut: "/favicon.ico",
   },
