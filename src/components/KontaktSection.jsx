@@ -380,7 +380,7 @@ export default function KontaktSection() {
 
           {/* Quick Value Props */}
           <div className="grid gap-3 text-sm text-brand-textMuted">
-            <p>• Zimmerei- &amp; Dacharbeiten für Neu- und Bestandsbauten</p>
+            <p>• Zimmerer- &amp; Dacharbeiten für Neu- und Bestandsbauten</p>
             <p>• Sanierungen, Gauben, Carports, Terrassen, Fassaden</p>
             <p>• Fenster- &amp; Türenaustausch, Innenausbau, Dachflächenfenster</p>
             <p className="pt-1">
