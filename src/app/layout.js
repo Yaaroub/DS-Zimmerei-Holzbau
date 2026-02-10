@@ -16,9 +16,10 @@ const inter = Inter({
 
 const siteUrl = "https://ds-zimmerei-holzbau.de";
 const siteName = "DS Zimmerei & Holzbau";
+const mapsUrl = "https://maps.app.goo.gl/Ge7ckiZnhL4XQAmY9";
 
 export const metadata = {
-  // ✅ Wichtig: sorgt für absolute URLs (OG, canonical, etc.)
+  // ✅ absolute URLs (canonical/OG) korrekt
   metadataBase: new URL(siteUrl),
 
   title: {
@@ -27,11 +28,11 @@ export const metadata = {
   },
 
   description:
-    "DS Zimmerei & Holzbau – Meisterbetrieb für Zimmerei, Dacharbeiten & Holzbau in Schleswig-Holstein. Tätig in Kiel, Lübeck, Flensburg, Neumünster, Elmshorn, Norderstedt, Rendsburg, Plön & Umgebung.",
+    "DS Zimmerei & Holzbau – Meisterbetrieb für Zimmerei, Dacharbeiten & Holzbau in Schleswig-Holstein. Tätig in Kiel, Lübeck, Flensburg, Neumünster, Rendsburg, Plön & Umgebung.",
 
-  // ✅ Canonical (Pages können das überschreiben)
+  // ✅ Canonical (Unterseiten können überschreiben)
   alternates: {
-    canonical: "/",
+    canonical: siteUrl + "/",
   },
 
   robots: {
@@ -49,14 +50,14 @@ export const metadata = {
   openGraph: {
     title: "DS Zimmerei & Holzbau – Zimmerei & Dacharbeiten in Schleswig-Holstein",
     description:
-      "Meisterbetrieb für Zimmerei, Dacharbeiten & Holzbau in Schleswig-Holstein – aktiv in Kiel, Lübeck, Flensburg, Neumünster, Elmshorn, Norderstedt, Rendsburg & Plön.",
-    url: siteUrl,
+      "Meisterbetrieb für Zimmerei, Dacharbeiten & Holzbau in Schleswig-Holstein – aktiv in Kiel, Lübeck, Flensburg, Neumünster, Rendsburg & Plön.",
+    url: siteUrl + "/",
     siteName,
     locale: "de_DE",
     type: "website",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/og-image.jpg", // -> /public/og-image.jpg (1200x630)
         width: 1200,
         height: 630,
         alt: "DS Zimmerei & Holzbau – Dach- & Holzbau Meisterbetrieb in Schleswig-Holstein",
@@ -64,22 +65,77 @@ export const metadata = {
     ],
   },
 
-  
+  twitter: {
+    card: "summary_large_image",
+    title: "DS Zimmerei & Holzbau – Zimmerei & Dacharbeiten in Schleswig-Holstein",
+    description:
+      "Meisterbetrieb für Zimmerei, Dacharbeiten & Holzbau in Schleswig-Holstein – aktiv in Kiel, Lübeck, Flensburg, Neumünster, Rendsburg & Plön.",
+    images: ["/og-image.jpg"],
+  },
 
   icons: {
-    icon: [
-      { url: "/favicon.ico" },
-      { url: "/ds-logo.svg", type: "image/svg+xml" },
-    ],
-    apple: "/ds-logo.svg",
-    shortcut: "/favicon.ico",
+    icon: [{ url: "/favicon.ico" }, { url: "/ds-logo.svg", type: "image/svg+xml" }],
+    // ✅ iOS: besser PNG statt SVG
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    shortcut: ["/favicon.ico"],
   },
 };
 
 export default function RootLayout({ children }) {
+  // ✅ Local SEO Schema (prüfe/ändere Daten falls nötig)
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@id": siteUrl + "/#business",
+    "@type": "HomeAndConstructionBusiness",
+    name: siteName,
+    url: siteUrl + "/",
+    image: siteUrl + "/og-image.jpg",
+    telephone: "+491729759134",
+    email: "kontakt@ds-zimmerei-holzbau.de",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Behler Weg 11",
+      postalCode: "24329",
+      addressLocality: "Grebin",
+      addressRegion: "Schleswig-Holstein",
+      addressCountry: "DE",
+    },
+
+    // ✅ Google Maps / Google Business Profile Link
+    hasMap: mapsUrl,
+    sameAs: [mapsUrl],
+
+    areaServed: [
+      { "@type": "AdministrativeArea", name: "Schleswig-Holstein" },
+      { "@type": "City", name: "Kiel" },
+      { "@type": "City", name: "Lübeck" },
+      { "@type": "City", name: "Flensburg" },
+      { "@type": "City", name: "Neumünster" },
+      { "@type": "City", name: "Eutin" },
+      { "@type": "City", name: "Plön" },
+    ],
+
+    description:
+      "Meisterbetrieb für Zimmerei, Dacharbeiten, Dachsanierung und individuellen Holzbau in Schleswig-Holstein.",
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "08:00",
+        closes: "18:00",
+      },
+    ],
+  };
+
   return (
     <html lang="de">
       <body className={inter.className}>
+        {/* ✅ LocalBusiness JSON-LD */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+
         <CookieConsentProvider>
           <Navbar />
           {children}

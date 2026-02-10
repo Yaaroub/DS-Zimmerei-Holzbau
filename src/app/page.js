@@ -6,12 +6,9 @@ import KontaktSection from "@/components/KontaktSection";
 import WarumWirSection from "@/components/WarumWirSection";
 
 export const metadata = {
-  title: "Zimmerei & Dacharbeiten in Schleswig-Holstein | DS Zimmerei & Holzbau",
+  title: "Zimmerei & Dacharbeiten in Schleswig-Holstein",
   description:
-    "DS Zimmerei & Holzbau – Ihr Meisterbetrieb für Zimmerei, Dacharbeiten & Holzbau in Schleswig-Holstein. Tätig in Kiel, Lübeck, Plön, Rendsburg & Umgebung.",
-  alternates: {
-    canonical: "/",
-  },
+    "Ihr Meisterbetrieb für Zimmerei, Dacharbeiten & Holzbau in Schleswig-Holstein.",
 };
 
 export default function HomePage() {
