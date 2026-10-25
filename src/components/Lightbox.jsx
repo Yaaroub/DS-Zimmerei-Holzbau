@@ -36,8 +36,9 @@ export default function Lightbox({ images, index: initialIndex = 0, onClose }) {
 
   // keep in sync if parent changes initialIndex while open
   useEffect(() => {
+    // Keep the open gallery aligned with a changed starting image.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIndex(clamp(initialIndex ?? 0, 0, Math.max(0, len - 1)));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialIndex, len]);
 
   const neighbors = useMemo(() => {

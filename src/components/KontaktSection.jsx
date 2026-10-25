@@ -2,6 +2,8 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import InquiryAssistant from "@/components/InquiryAssistant";
 import { useCookieConsent } from "@/components/cookies/CookieConsentProvider";
 
 /**
@@ -11,7 +13,7 @@ import { useCookieConsent } from "@/components/cookies/CookieConsentProvider";
  */
 const BUSINESS = {
   name: "DS Zimmerei & Holzbau",
-  url: "https://www.ds-zimmerei-holzbau.de",
+  url: "https://ds-zimmerei-holzbau.de",
   telephone: "+491729759134",
   email: "kontakt@ds-zimmerei-holzbau.de",
 
@@ -44,7 +46,6 @@ function JsonLd({ data }) {
   return (
     <script
       type="application/ld+json"
-      // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
     />
   );
@@ -127,6 +128,7 @@ export default function KontaktSection() {
 
   const successRef = useRef(null);
   const errorRef = useRef(null);
+  const formRef = useRef(null);
 
   const SUBJECTS = useMemo(
     () => [
@@ -345,6 +347,7 @@ export default function KontaktSection() {
       id="kontakt"
       aria-labelledby="kontakt-heading"
       className="
+        contact-section
         bg-[linear-gradient(180deg,#FFFFFF_0%,#F7F8FA_100%)]
         text-brand-text
         py-24 md:py-32
@@ -356,6 +359,16 @@ export default function KontaktSection() {
       <JsonLd data={localBusinessJsonLd} />
       {/* Optional: FAQ Schema */}
       {/* <JsonLd data={faqJsonLd} /> */}
+
+      <div className="max-w-7xl mx-auto mb-16">
+        <InquiryAssistant onApply={(message) => {
+          const form = formRef.current;
+          if (!form) return;
+          form.elements.nachricht.value = message;
+          form.elements.nachricht.focus();
+          form.scrollIntoView({ behavior: "smooth", block: "start" });
+        }} />
+      </div>
 
       <div className="max-w-7xl mx-auto grid gap-12 md:grid-cols-[1.3fr,1fr] items-start">
         {/* TEXT / LOCAL / MAP */}
@@ -384,19 +397,19 @@ export default function KontaktSection() {
             <p>• Sanierungen, Gauben, Carports, Terrassen, Fassaden</p>
             <p>• Fenster- &amp; Türenaustausch, Innenausbau, Dachflächenfenster</p>
             <p className="pt-1">
-              <a
-                href="#leistungen"
+              <Link
+                href="/leistungen"
                 className="underline underline-offset-4 hover:text-brand-text"
               >
                 Leistungen ansehen
-              </a>
+              </Link>
               <span className="text-brand-textMuted"> · </span>
-              <a
-                href="#projekte"
+              <Link
+                href="/projekte"
                 className="underline underline-offset-4 hover:text-brand-text"
               >
                 Projekte ansehen
-              </a>
+              </Link>
             </p>
           </div>
 
@@ -522,7 +535,7 @@ export default function KontaktSection() {
             Anfrageformular
           </p>
 
-          <form onSubmit={handleSubmit} className="mt-4 space-y-4 text-sm" noValidate>
+          <form ref={formRef} onSubmit={handleSubmit} className="mt-4 space-y-4 text-sm" noValidate>
             {/* Honeypot */}
             <div className="hidden">
               <label>

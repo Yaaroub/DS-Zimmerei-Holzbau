@@ -1,15 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  FileText,
-  Phone,
-  Mail,
-  MapPin,
-  Gavel,
-  Info,
-  Shield,
-} from "lucide-react";
 
 const fade = {
   initial: { opacity: 0, y: 16 },
@@ -18,7 +9,7 @@ const fade = {
   transition: { duration: 0.5, ease: "easeOut" },
 };
 
-function Card({ icon: Icon, title, children, className = "" }) {
+function Card({ title, children, className = "" }) {
   return (
     <div
       className={[
@@ -28,10 +19,6 @@ function Card({ icon: Icon, title, children, className = "" }) {
       ].join(" ")}
     >
       <div className="flex items-start gap-3">
-        <div className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[#17E800]/10">
-          <Icon className="h-4 w-4 text-[#17E800]" />
-        </div>
-
         <div className="min-w-0">
           <h2 className="text-sm md:text-base font-semibold text-gray-900">
             {title}
@@ -84,7 +71,7 @@ export default function ImpressumSection() {
 
             {/* cards grid */}
             <div className="grid gap-4 sm:grid-cols-2 pt-2">
-              <Card icon={FileText} title="Firmenangaben">
+              <Card title="Firmenangaben">
                 <span className="font-semibold text-gray-900">
                   DS Zimmerei &amp; Holzbau
                 </span>
@@ -92,7 +79,7 @@ export default function ImpressumSection() {
                 Inhaber: Zimmerermeister Dennis Steckel
               </Card>
 
-              <Card icon={MapPin} title="Anschrift">
+              <Card title="Anschrift">
                 Behler Weg 11
                 <br />
                 24329 Grebin
@@ -100,7 +87,7 @@ export default function ImpressumSection() {
                 Deutschland
               </Card>
 
-              <Card icon={Phone} title="Kontakt">
+              <Card title="Kontakt">
                 Telefon:&nbsp;
                 <a
                   href="tel:+491729759134"
@@ -118,14 +105,14 @@ export default function ImpressumSection() {
                 </a>
               </Card>
 
-              <Card icon={Gavel} title="Handwerksbetrieb">
+              <Card title="Handwerksbetrieb">
                 Eingetragen in die Handwerksrolle der zuständigen
                 Handwerkskammer.
                 <br />
                 Berufsbezeichnung: Zimmerermeister (verliehen in Deutschland)
               </Card>
 
-              <Card icon={Info} title="Umsatzsteuer">
+              <Card title="Umsatzsteuer">
                 Umsatzsteuer-Identifikationsnummer gemäß § 27 a
                 Umsatzsteuergesetz:
                 <br />
@@ -147,9 +134,6 @@ export default function ImpressumSection() {
           >
             <div className="rounded-2xl border border-black/5 bg-white p-6 md:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
               <div className="flex items-start gap-3">
-                <div className="mt-0.5 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[#17E800]/10">
-                  <Shield className="h-5 w-5 text-[#17E800]" />
-                </div>
                 <div>
                   <p className="text-[11px] uppercase tracking-[0.22em] text-gray-500">
                     Verantwortlich i. S. d. § 55 Abs. 2 RStV / MStV

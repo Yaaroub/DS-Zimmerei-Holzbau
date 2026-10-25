@@ -1,7 +1,13 @@
+
+const siteUrl = "https://ds-zimmerei-holzbau.de";
+
 export default function robots() {
-    return {
-      rules: [{ userAgent: "*", allow: "/" }],
-      sitemap: "https://ds-zimmerei-holzbau.de/sitemap.xml",
-    };
-  }
-  
+  return {
+    rules: {
+      userAgent: "*",
+      allow: "/",
+    },
+
+    sitemap: `${siteUrl}/sitemap.xml`,
+  };
+}

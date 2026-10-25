@@ -16,8 +16,10 @@ export function CookieConsentProvider({ children }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    setConsent(readConsent());
-    setReady(true);
+    queueMicrotask(() => {
+      setConsent(readConsent());
+      setReady(true);
+    });
 
     const onChanged = (e) => setConsent(e.detail);
     const onCleared = () => setConsent(null);

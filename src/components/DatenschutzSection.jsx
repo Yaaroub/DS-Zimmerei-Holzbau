@@ -1,17 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Shield,
-  Lock,
-  Globe,
-  FileText,
-  Info,
-  Users,
-  Database,
-  Mail,
-  Phone,
-} from "lucide-react";
 
 const fade = {
   initial: { opacity: 0, y: 16 },
@@ -20,7 +9,7 @@ const fade = {
   transition: { duration: 0.5, ease: "easeOut" },
 };
 
-function Card({ icon: Icon, title, children, className = "" }) {
+function Card({ title, children, className = "" }) {
   return (
     <div
       className={[
@@ -30,10 +19,6 @@ function Card({ icon: Icon, title, children, className = "" }) {
       ].join(" ")}
     >
       <div className="flex items-start gap-3">
-        <div className="mt-0.5 inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[#17E800]/10">
-          <Icon className="h-4 w-4 text-[#17E800]" />
-        </div>
-
         <div className="min-w-0">
           <h2 className="text-sm md:text-base font-semibold text-gray-900">
             {title}
@@ -86,7 +71,7 @@ export default function DatenschutzSection() {
 
             {/* Cards */}
             <div className="grid gap-4 sm:grid-cols-2 pt-2">
-              <Card icon={Users} title="Verantwortliche Stelle">
+              <Card title="Verantwortliche Stelle">
                 <p>
                   <span className="font-semibold text-gray-900">
                     DS Zimmerei &amp; Holzbau
@@ -99,7 +84,6 @@ export default function DatenschutzSection() {
 
                 <div className="mt-3 space-y-2">
                   <div className="flex items-center gap-2">
-                    <Mail className="h-4 w-4 text-[#17E800]" />
                     <a
                       href="mailto:kontakt@ds-zimmerei-holzbau.de"
                       className="underline underline-offset-4 hover:text-black"
@@ -108,7 +92,6 @@ export default function DatenschutzSection() {
                     </a>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Phone className="h-4 w-4 text-[#17E800]" />
                     <a
                       href="tel:+491729759134"
                       className="underline underline-offset-4 hover:text-black"
@@ -119,7 +102,7 @@ export default function DatenschutzSection() {
                 </div>
               </Card>
 
-              <Card icon={Globe} title="Zugriffsdaten / Server-Logs">
+              <Card title="Zugriffsdaten / Server-Logs">
                 Beim Aufruf der Website werden technisch notwendige Daten
                 verarbeitet (z. B. IP-Adresse, Datum/Uhrzeit, Browser, Betriebssystem).
                 Rechtsgrundlage ist{" "}
@@ -129,7 +112,7 @@ export default function DatenschutzSection() {
                 (berechtigtes Interesse an Sicherheit und Stabilität).
               </Card>
 
-              <Card icon={Lock} title="Kontaktformular & E-Mail">
+              <Card title="Kontaktformular & E-Mail">
                 Die von Ihnen übermittelten Daten werden ausschließlich zur
                 Bearbeitung Ihrer Anfrage verwendet. Rechtsgrundlage:{" "}
                 <span className="font-medium text-gray-900">
@@ -141,7 +124,7 @@ export default function DatenschutzSection() {
                 </span>.
               </Card>
 
-              <Card icon={FileText} title="Rechte der betroffenen Personen">
+              <Card title="Rechte der betroffenen Personen">
                 <ul className="space-y-1">
                   <li>• Auskunft (Art. 15 DSGVO)</li>
                   <li>• Berichtigung (Art. 16 DSGVO)</li>
@@ -153,7 +136,6 @@ export default function DatenschutzSection() {
               </Card>
 
               <Card
-  icon={Database}
   title="Cookies & Einwilligung"
   className="sm:col-span-2"
 >
@@ -168,7 +150,6 @@ export default function DatenschutzSection() {
   im Footer ändern.
 </Card>
 <Card
-  icon={Globe}
   title="Google Maps (externe Inhalte)"
   className="sm:col-span-2"
 >
@@ -189,7 +170,6 @@ export default function DatenschutzSection() {
 
 
               <Card
-                icon={FileText}
                 title="Google Fonts (lokale Einbindung)"
                 className="sm:col-span-2"
               >
@@ -208,9 +188,6 @@ export default function DatenschutzSection() {
           <motion.div {...fade} transition={{ delay: 0.08 }} className="md:sticky md:top-28">
             <div className="rounded-2xl border border-black/5 bg-white p-6 md:p-7 shadow-[0_12px_40px_rgba(0,0,0,0.08)]">
               <div className="flex items-start gap-3">
-                <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-[#17E800]/10">
-                  <Info className="h-5 w-5 text-[#17E800]" />
-                </div>
                 <div>
                   <p className="text-[11px] uppercase tracking-[0.22em] text-gray-500">
                     Rechtliche Grundlage
@@ -224,7 +201,6 @@ export default function DatenschutzSection() {
               <div className="mt-6 space-y-5 text-sm text-gray-600">
                 <div>
                   <h3 className="font-semibold text-gray-900 flex items-center gap-2">
-                    <Shield className="h-4 w-4 text-[#17E800]" />
                     Zwecke der Verarbeitung
                   </h3>
                   <p className="mt-2 leading-relaxed">
